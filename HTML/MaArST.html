@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D&D Martial Arts Skill Tree</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+
+<a href="../CLICKME.html" class="return-home-btn" aria-label="Return to homepage">⌂</a>
+
+<button id="zoomInBtn" class="zoom-control-in zoom-btn">&#128269 In</button>
+<button id="zoomOutBtn" class="zoom-control-out zoom-btn">&#128269 Out</button>
+
+<div class="ui">
+  <label class="btn">
+    Load tree
+    <input id="fileInput" type="file" accept=".json,application/json" hidden>
+  </label>
+  <button id="saveTreeBtn" class="btn">Save tree</button>
+
+  <label class="btn">
+    Load progress
+    <input id="progressInput" type="file" accept=".json,application/json" hidden>
+  </label>
+  <button id="saveProgressBtn" class="btn">Save progress</button>
+  <button id="resetBtn" class="btn">Reset</button>
+  <button id="toggleOverviewBtn" class="btn">Unlocked</button>
+  <button id="addPointBtn" class="btn btn-sm" title="Add one point">+</button>
+  <button id="subPointBtn" class="btn btn-sm" title="Remove one point">−</button>
+  <span id="pointsInfo"></span>
+  
+
+  <span id="msg" aria-live="polite"></span>
+</div>
+
+<div id="skillTreeContainer" class="skill-tree-container"></div>
+
+<div id="overviewPanel" class="overview-panel hidden">
+  <h3>Unlocked Nodes</h3>
+  <div id="overviewList"></div>
+</div>
+
+<script src="../JS/Skilltree.js"></script>
+
+</body>
+</html>
