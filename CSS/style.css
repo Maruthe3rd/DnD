@@ -234,6 +234,7 @@ body {
     width: 90%;
     box-shadow: 0 10px 25px rgba(0,0,0,0.7);
     color: var(--text);
+    z-index: 99999;
 }
 
 .modal-content h2 {

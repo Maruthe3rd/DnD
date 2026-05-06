@@ -2,7 +2,7 @@
     "use strict";
 
     // ---------- CONSTANTS & GLOBALS ----------
-    const ELEMENTS = ["Neutral", "Fire", "Ice", "Water", "Earth", "Air", "Lightning", "Shadow", "Light"];
+    const ELEMENTS = ["Neutral", "Fire", "Ice", "Lightning", "Nature", "Weird", "Physical", "Wind"];
     const SVG_NS = "http://www.w3.org/2000/svg";
 
     // DOM elements — create the SVG dynamically since no static <svg id="treeSvg"> exists in the HTML
