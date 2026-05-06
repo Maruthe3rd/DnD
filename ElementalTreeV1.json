@@ -1,0 +1,554 @@
+{
+  "name": "Elemental Skilltree V1",
+  "points": 5,
+  "nodes": [
+    {
+      "id": "root",
+      "label": "Base",
+      "cost": 0,
+      "requires": [],
+      "description": "The entry point to your elemental journey, granting access to all elemental paths.",
+      "effect": "Grants access to summon small non-damaging instances of your element."
+    },
+    {
+      "id": "buff_doping_1",
+      "label": "Buff / Doping I",
+      "cost": 1,
+      "requires": ["root"],
+      "description": "Temporary self-enhancement techniques from various elements.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that buff ability.",
+      "elements": {
+        "Fire": {
+          "title": "Rage",
+          "description": "Let fury drive your might, risking your sanity.",
+          "effect": "Bonus action, 1/long rest. For 1 minute: +2 melee damage, advantage on STR checks/saves. Can’t cast spells or maintain concentration; vulnerability to psychic."
+        },
+        "Ice": {
+          "title": "Frostbite",
+          "description": "Sacrifice your own warmth to empower cold attacks.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: your cold damage deals +1d4 extra cold. At the end of each of your turns, you take 1d4 cold damage (cannot be reduced)."
+        },
+        "Lightning": {
+          "title": "Adrenaline Rush",
+          "description": "Push your reflexes to the limit, then crash.",
+          "effect": "Bonus action, 1/short rest. For 3 rounds: advantage on attack rolls and DEX saves. When the effect ends, gain 1 level of exhaustion."
+        },
+        "Nature": {
+          "title": "Flowerfield",
+          "description": "Create a blooming sanctuary that mends wounds.",
+          "effect": "Action, 1/long rest, concentration up to 1 minute. 20-ft radius restorative bloom: any creature that starts its turn there regains 1d4 hit points."
+        },
+        "Weird": {
+          "title": "Motivational Illusion",
+          "description": "A trick of the mind that bolsters courage.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: gain 5 temporary HP and advantage against frightened. When the effect ends, if you still have those temporary HP, take 5 psychic damage."
+        },
+        "Physical": {
+          "title": "Muscle Surge",
+          "description": "Overcharge your muscles for a burst of power.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: STR +2 (max 22), speed +10 ft. When it ends, gain 1 level of exhaustion."
+        },
+        "Wind": {
+          "title": "Tailwind Impact",
+          "description": "Let the wind carry your strikes and leaps.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: when you hit with a weapon attack, you may push the target up to 10 ft. Jump distance doubled."
+        }
+      }
+    },
+    {
+      "id": "buff_doping_2",
+      "label": "Buff / Doping II",
+      "cost": 2,
+      "requires": ["buff_doping_1"],
+      "description": "Stronger buffs, often with a defensive or utility twist.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that stronger buff.",
+      "elements": {
+        "Fire": {
+          "title": "Life Burn",
+          "description": "Sacrifice life force to ignite your strikes.",
+          "effect": "Bonus action, 1/short rest. Take 1d4 irreducible necrotic damage. Until end of your next turn, weapon attacks and fire spells deal +1d4 fire damage."
+        },
+        "Ice": {
+          "title": "Cold Head",
+          "description": "Freeze your emotions, gaining mental clarity.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: advantage on WIS & INT saves, immunity to charmed and frightened."
+        },
+        "Lightning": {
+          "title": "Lightning Reflexes",
+          "description": "Your nerves fire with electrical speed.",
+          "effect": "You always have advantage on initiative rolls."
+        },
+        "Nature": {
+          "title": "Imbue Animal",
+          "description": "Enhance a loyal beast with natural might.",
+          "effect": "Action, 1/long rest. Touch a willing beast; for 1 hour (8 hours if your animal companion) it gains +2 AC, advantage on Perception, and +1d6 poison damage on its attacks."
+        },
+        "Weird": {
+          "title": "Chaos Infusion",
+          "description": "Embrace randomness to gain unpredictable power.",
+          "effect": "Bonus action, 1/short rest. Roll 1d6 for a random 1-minute buff: 1: +2 AC; 2: +1d4 damage on all attacks; 3: fly speed 30 ft (hover); 4: resistance to all damage; 5: regain 2d8 HP at the start of each turn; 6: advantage on all attack rolls."
+        },
+        "Physical": {
+          "title": "Iron Body",
+          "description": "Harden your body like forged steel.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: resistance to non-magical bludgeoning, piercing, slashing, and advantage on CON saves."
+        },
+        "Wind": {
+          "title": "Sirocco Step",
+          "description": "Move like a desert wind, slipping past foes.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: movement doesn’t provoke opportunity attacks; you can move through hostile creatures’ spaces (difficult terrain)."
+        }
+      }
+    },
+    {
+      "id": "buff_doping_3",
+      "label": "Buff / Doping III",
+      "cost": 3,
+      "requires": ["buff_doping_2"],
+      "description": "Major transformation or life-saving buff abilities.",
+      "effect": "Choose one elemental variation upon unlocking. You gain a powerful once-per-rest buff.",
+      "elements": {
+        "Fire": {
+          "title": "Phoenix Flames",
+          "description": "Cheat death with a fiery rebirth and retaliation.",
+          "effect": "Reaction when reduced to 0 HP but not killed outright, 1/long rest. You instead regain 1d10+CON HP. Creatures within 10 ft make DEX save or take 2d6 fire. You stand up if prone. Transform all flames into healing flames for 3 turns."
+        },
+        "Ice": {
+          "title": "Ice Armour",
+          "description": "Encase yourself in solid ice.",
+          "effect": "Action, 1/long rest. For 1 hour: AC becomes 18 (if not higher), resistance to fire, vulnerability to bludgeoning from creatures larger than you, speed −10 ft."
+        },
+        "Lightning": {
+          "title": "Ball Lightning",
+          "description": "Become a living lightning bolt, zipping through battle.",
+          "effect": "Bonus action, 1/long rest. For 1 minute: gain fly speed equal to walk speed (hover); you can move through creatures; each creature you pass through must make DEX save or take 3d6 lightning (once per creature)."
+        },
+        "Nature": {
+          "title": "Verdant Overgrowth",
+          "description": "Summon a rejuvenating, hostile thicket.",
+          "effect": "Action, 1/long rest, concentration up to 1 minute. 30-ft aura: difficult terrain for enemies; at the start of your turn, up to 3 allies in the aura regain 2d6 HP."
+        },
+        "Weird": {
+          "title": "Wild Mending",
+          "description": "Twist fate to heal or harm yourself.",
+          "effect": "Bonus action, 1/short rest. Roll a d20: 6–20: regain that many −5 HP (min 1). 1–5: take 5 psychic damage."
+        },
+        "Physical": {
+          "title": "Adrenaline Overload",
+          "description": "Push beyond mortal limits at great cost.",
+          "effect": "Action, 1/long rest. For 1 minute: +4 STR & DEX (max 24), speed +20 ft, advantage on STR & DEX checks. After it ends, suffer 3 levels of exhaustion."
+        },
+        "Wind": {
+          "title": "Eye of the Storm",
+          "description": "Create a protective vortex of calm within chaos.",
+          "effect": "Action, 1/long rest, concentration up to 1 minute. 10-ft radius, 20-ft tall cylinder: you and allies inside have resistance to ranged weapon attacks; enemies entering must make STR save or be pushed back 10 ft."
+        }
+      }
+    },
+    {
+      "id": "attack_1",
+      "label": "Attack I",
+      "cost": 1,
+      "requires": ["root"],
+      "description": "Basic combat techniques – melee or short-range offensive boosts.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that attack ability.",
+      "elements": {
+        "Fire": {
+          "title": "Blazing Aura",
+          "description": "Wreathe yourself in scorching flames.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: at start of your turn, creatures within 5 ft take fire damage equal to your proficiency bonus. Your melee attacks deal +1 fire damage."
+        },
+        "Ice": {
+          "title": "Chilling Imbue",
+          "description": "Coat your weapon with bitter cold.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: weapon attacks deal +1d4 cold; hit creature must make CON save or speed −10 ft until start of your next turn."
+        },
+        "Lightning": {
+          "title": "Overcharge",
+          "description": "Overload your system for a quick second wind.",
+          "effect": "Bonus action, 1/short rest. On your next turn, you can take one additional action."
+        },
+        "Nature": {
+          "title": "Wooden Arsenal",
+          "description": "Grow wooden weapons and poison them.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: as a free action summon any wooden simple or martial melee weapon (you are proficient). The weapon deals +1d4 poison damage."
+        },
+        "Weird": {
+          "title": "Bizarre Blast",
+          "description": "Unleash a chaotic bolt of raw energy.",
+          "effect": "Action, 1/short rest. Ranged spell attack, 60 ft. On hit roll a d8 for effect: 1: 2d6 acid, target can’t take reactions until next turn. 2: 2d6 cold, speed halved until next turn. 3: 2d6 fire, ignited. 4: 2d6 lightning, target loses any resistance until next turn. 5: 2d6 necrotic, you gain temp HP equal to damage dealt. 6: 2d6 psychic, target frightened until next turn. 7: 2d6 radiant, target blinded until next turn. 8: 2d6 thunder, pushed 10 ft."
+        },
+        "Physical": {
+          "title": "Brute Force Strike",
+          "description": "Deliver a powerful, staggering blow.",
+          "effect": "Action, 1/short rest. Melee weapon attack: on hit, +2d6 weapon damage and target must make STR save or be knocked prone."
+        },
+        "Wind": {
+          "title": "Gust Slash",
+          "description": "Weapon strikes unleash cutting wind.",
+          "effect": "Bonus action, 1/short rest. For 1 minute: when you hit with a weapon attack, target makes STR save or pushed 15 ft + 1d6 bludgeoning."
+        }
+      }
+    },
+    {
+      "id": "attack_2",
+      "label": "Attack II",
+      "cost": 2,
+      "requires": ["attack_1"],
+      "description": "Moderate-power attack with a debilitating effect.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that attack.",
+      "elements": {
+        "Fire": {
+          "title": "Flame Wave",
+          "description": "Sweep a fan of flames before you.",
+          "effect": "Action, 1/short rest. 15-ft cone, DEX save: 3d6 fire (half on success). Ignites unattended flammables."
+        },
+        "Ice": {
+          "title": "Glacial Spike",
+          "description": "Hurl a massive ice shard that freezes in place.",
+          "effect": "Action, 1/short rest. Ranged spell attack, 60 ft: 3d8 piercing + 1d6 cold, and target’s speed reduced to 0 until end of your next turn."
+        },
+        "Lightning": {
+          "title": "Stunning Shock Imbue",
+          "description": "Charge your weapon to paralyze on impact.",
+          "effect": "Bonus action, 1/short rest. For 1 minute, the next time you hit with a melee weapon, target makes CON save or stunned until end of your next turn; then the imbue fades."
+        },
+        "Nature": {
+          "title": "Tree Bomb",
+          "description": "Summon explosive, entangling vegetation.",
+          "effect": "Action, 1/short rest. 30-ft range, 10-ft radius growth (lasts 1 min). Creatures in area: DEX save or 3d6 piercing and restrained (action to escape, STR check)."
+        },
+        "Weird": {
+          "title": "Desperate Gamble",
+          "description": "Risk it all on one capricious strike.",
+          "effect": "Action, 1/short rest. Make one weapon attack. On a hit, roll d20: 11–20 = double damage; 1–10 = half damage. If you miss, take 1d10 psychic damage."
+        },
+        "Physical": {
+          "title": "Crushing Blow",
+          "description": "Deal a crippling strike that fractures defenses.",
+          "effect": "Action, 1/short rest. Melee attack: +3d6 damage and target makes CON save or AC −2 until end of your next turn."
+        },
+        "Wind": {
+          "title": "Vortex Kick",
+          "description": "Launch foes into the air with a cyclone kick.",
+          "effect": "Action, 1/short rest. 30-ft range, 10-ft radius: STR save or 3d6 bludgeoning, lifted 20 ft and fall prone. Half damage on success, no lift."
+        }
+      }
+    },
+    {
+      "id": "attack_3",
+      "label": "Attack III",
+      "cost": 3,
+      "requires": ["attack_2"],
+      "description": "Ultimate offensive ability, once per long rest.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that devastating attack.",
+      "elements": {
+        "Fire": {
+          "title": "Meteor Strike",
+          "description": "Call down a blazing meteor from the sky.",
+          "effect": "Action, 1/long rest. 120 ft range, 20-ft radius: DEX save for 8d6 fire + 4d6 bludgeoning (half on success). Ground becomes difficult terrain for 1 minute."
+        },
+        "Ice": {
+          "title": "Blizzard Barrage",
+          "description": "Unleash a localized blizzard that blinds all.",
+          "effect": "Action, 1/long rest. 30-ft radius centred on you (you immune). Creatures CON save or 6d6 cold, blinded & deafened until end of your next turn; half on success. Area heavily obscured until then."
+        },
+        "Lightning": {
+          "title": "Chain Lightning Storm",
+          "description": "Electrify multiple targets and teleport.",
+          "effect": "Action, 1/long rest. Up to 6 creatures within 60 ft, DEX save or 10d6 lightning; half on success. Afterward, you may teleport up to 30 ft as a bonus action."
+        },
+        "Nature": {
+          "title": "Wrath of the Wild",
+          "description": "Encase the area in a deadly thorn prison.",
+          "effect": "Action, 1/long rest. 30-ft radius thorns (1 min, concentration): chosen creatures STR save or 5d6 piercing & restrained (escape action). Area is difficult terrain for enemies and half cover for allies."
+        },
+        "Weird": {
+          "title": "Reality Fracture",
+          "description": "Tear open a rift, banishing foes to a pocket dimension.",
+          "effect": "Action, 1/long rest. 90 ft range, 15-ft radius: CHA save or 8d6 psychic and banished to a harmless demiplane until end of next turn (reappear prone). Half damage on success."
+        },
+        "Physical": {
+          "title": "Titan’s Smash",
+          "description": "Slam the ground with cataclysmic force.",
+          "effect": "Action, 1/long rest. 20-ft radius slam: DEX save or 6d6 bludgeoning, knocked prone & stunned until end of your next turn; half damage, no stun on success."
+        },
+        "Wind": {
+          "title": "Tempest Cyclone",
+          "description": "Summon a raging cyclone that flings enemies.",
+          "effect": "Action, 1/long rest. 120 ft range, 10-ft radius, 40-ft tall cylinder: STR save or 6d6 bludgeoning, flung 60 ft random direction & prone (half on success). Ranged attacks through the area have disadvantage until start of your next turn."
+        }
+      }
+    },
+    {
+      "id": "general_life_1",
+      "label": "General Life I",
+      "cost": 1,
+      "requires": ["root"],
+      "description": "Passive utility – social, mobility, or minor defensive boons.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that passive benefit.",
+      "elements": {
+        "Fire": {
+          "title": "Fiery Presence",
+          "description": "Your aura sears and intimidates.",
+          "effect": "Proficiency in Intimidation; advantage on CHA (Intimidation). Creatures of your choice that start their turn within 5 ft take fire damage equal to your CHA mod (min 1)."
+        },
+        "Ice": {
+          "title": "Cool Aura",
+          "description": "A calming presence that steels nerves.",
+          "effect": "Advantage against frightened. As a reaction when a creature within 10 ft would be frightened, you can give it advantage on the save."
+        },
+        "Lightning": {
+          "title": "Lightning Stride",
+          "description": "Move with the speed of a lightning bolt.",
+          "effect": "Base walking speed +10 ft. You can take the Dash action as a bonus action."
+        },
+        "Nature": {
+          "title": "Tranquil Mind",
+          "description": "Your thoughts are as serene as a forest.",
+          "effect": "Advantage on WIS (Insight) and CHA (Persuasion) to calm or reason. Advantage on saves against charmed."
+        },
+        "Weird": {
+          "title": "Odd Light",
+          "description": "Manipulate light and shadows in strange ways.",
+          "effect": "Cast light at will. As an action, make its glow produce silent minor illusion‑style images. You can see normally in magical darkness out to 30 ft."
+        },
+        "Physical": {
+          "title": "Athletic Build",
+          "description": "Your physique is honed for action.",
+          "effect": "Proficiency in Athletics; carrying capacity doubled. You can attempt a grapple as a bonus action."
+        },
+        "Wind": {
+          "title": "Wind Whisperer",
+          "description": "The breeze tells you its secrets.",
+          "effect": "Understand and speak Auran. Always know north; advantage on checks to avoid getting lost. Sense upcoming weather 1 hour in advance."
+        }
+      }
+    },
+    {
+      "id": "general_life_2",
+      "label": "General Life II",
+      "cost": 2,
+      "requires": ["general_life_1"],
+      "description": "Enhanced passive – often environmental adaptation or resource tool.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that enhanced passive.",
+      "elements": {
+        "Fire": {
+          "title": "Heated Activity",
+          "description": "Body heat melts obstacles and wards off cold.",
+          "effect": "Resistance to cold, ignore difficult terrain from ice/snow. Snap fingers to light small flames."
+        },
+        "Ice": {
+          "title": "Ice Skater",
+          "description": "Glide over ice and create slippery patches.",
+          "effect": "Move across ice without penalty; climb vertical icy surfaces with speed = walk speed. Bonus action create a 10-ft icy patch (difficult terrain, DEX save or fall prone) within 30 ft, lasts 1 minute."
+        },
+        "Lightning": {
+          "title": "Conductive Body",
+          "description": "Channel lightning into a defensive surge.",
+          "effect": "Resistance to lightning. When you take lightning damage, as a reaction gain temporary HP equal to half the damage (once per short rest)."
+        },
+        "Nature": {
+          "title": "Nature’s Boon",
+          "description": "Live in harmony with beasts and nature.",
+          "effect": "Cast speak with animals at will, no slot. Advantage on WIS (Survival) to track or find food."
+        },
+        "Weird": {
+          "title": "Erratic Luck",
+          "description": "Fortune warps oddly in your favor.",
+          "effect": "Once per long rest, when you roll a 1 on an attack, check, or save, you can reroll and must use the new roll."
+        },
+        "Physical": {
+          "title": "Sturdy Frame",
+          "description": "You're built to withstand punishment.",
+          "effect": "HP maximum increases by your level. When you roll a Hit Die to heal, regain additional HP equal to your CON mod."
+        },
+        "Wind": {
+          "title": "Wind Rider",
+          "description": "Air cushions your falls and leaps.",
+          "effect": "Cast feather fall on yourself at will. Advantage on jump checks; running jump distance tripled."
+        }
+      }
+    },
+    {
+      "id": "general_life_3",
+      "label": "General Life III",
+      "cost": 3,
+      "requires": ["general_life_2"],
+      "description": "Mastery passive – significant permanent boon, often an immunity or legendary resilience.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that permanent boon.",
+      "elements": {
+        "Fire": {
+          "title": "Phoenix Blessing",
+          "description": "A spark of immortality burns within.",
+          "effect": "1/long rest when reduced to 0 HP and not killed outright, drop to 1 HP instead. Immune to extreme heat."
+        },
+        "Ice": {
+          "title": "Frozen Soul",
+          "description": "Your soul is an unyielding glacier.",
+          "effect": "Immunity to cold damage. Advantage on saves against illusion spells and effects."
+        },
+        "Lightning": {
+          "title": "Evercharged",
+          "description": "You never tire, sustained by electricity.",
+          "effect": "You don’t need sleep and can’t be forced to sleep by magic. Advantage on saves against paralysed and stunned."
+        },
+        "Nature": {
+          "title": "Heart of the Wild",
+          "description": "You embody the timeless wild.",
+          "effect": "Can cast barkskin on yourself 1/long rest without a slot. Age at half rate, immune to disease."
+        },
+        "Weird": {
+          "title": "Warped Mind",
+          "description": "Your mind is a labyrinth of defiance.",
+          "effect": "Resistance to psychic damage. When a creature tries to read your thoughts or deals psychic damage, it must make CHA save (DC = 8+prof+WIS or CHA mod) or be stunned until end of its next turn."
+        },
+        "Physical": {
+          "title": "Indomitable Spirit",
+          "description": "Nothing can break your will.",
+          "effect": "When you fail a saving throw, 1/long rest you can choose to succeed instead. Treated as one size larger for lifting, pushing, dragging."
+        },
+        "Wind": {
+          "title": "Zephyr Soul",
+          "description": "You take to the skies like the wind.",
+          "effect": "Gain a flying speed equal to your walking speed (if you end turn in air, you fall). Can’t be tracked by scent."
+        }
+      }
+    },
+    {
+      "id": "spells_1",
+      "label": "Spells I",
+      "cost": 1,
+      "requires": ["root"],
+      "description": "At-will or rechargeable minor magic – essentially a cantrip or signature spell.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that magical ability.",
+      "elements": {
+        "Fire": {
+          "title": "Flame Burst",
+          "description": "Hurl a small explosive spark.",
+          "effect": "Cantrip. 15-ft range, 5-ft radius burst, DEX save: 1d6 fire. Scales at 5th (2d6), 11th (3d6), 17th (4d6)."
+        },
+        "Ice": {
+          "title": "Frost Blade",
+          "description": "Conjure a blade of solid ice.",
+          "effect": "Cantrip. Bonus action summon an icy shortsword (cold damage, finesse). Disappears if released; only one at a time."
+        },
+        "Lightning": {
+          "title": "Jolt",
+          "description": "Shock a foe and disrupt their reactions.",
+          "effect": "Cantrip. Melee spell attack, 1d8 lightning + target can’t take reactions until start of your next turn. Scales at 5th (2d8), 11th (3d8), 17th (4d8)."
+        },
+        "Nature": {
+          "title": "Vine Lash",
+          "description": "A thorny vine lashes and pulls.",
+          "effect": "Cantrip. Melee spell attack with 30-ft reach, 1d6 bludgeoning + 1d6 poison. Target must make STR save or be pulled 10 ft toward you."
+        },
+        "Weird": {
+          "title": "Wild Conjuration",
+          "description": "Summon a random minor creature.",
+          "effect": "1/short rest. Summon a random creature for 10 minutes (d4): 1) celestial monkey (helpful), 2) invisible fey spirit that can distract, 3) tiny fire mephit, 4) illusory duplicate that can take the Help action."
+        },
+        "Physical": {
+          "title": "Power Strike",
+          "description": "Imbue your weapon with raw force.",
+          "effect": "Cantrip. Bonus action imbue a weapon; next hit before end of turn deals +1d6 force damage. Scales at 5th (2d6), 11th (3d6), 17th (4d6)."
+        },
+        "Wind": {
+          "title": "Gust Burst",
+          "description": "A burst of wind pushes foes back.",
+          "effect": "Cantrip. 10-ft cone, STR save or pushed 5 ft + 1d4 bludgeoning. Scales at 5th (2d4), 11th (3d4), 17th (4d4)."
+        }
+      }
+    },
+    {
+      "id": "spells_2",
+      "label": "Spells II",
+      "cost": 2,
+      "requires": ["spells_1"],
+      "description": "Short-rest based magical ability – often a utility or battlefield control.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that spell-like ability.",
+      "elements": {
+        "Fire": {
+          "title": "Fire Fist",
+          "description": "Your fists burn with fiery fury.",
+          "effect": "1/short rest. For 1 minute: unarmed strikes add 1d6 fire; you can make one unarmed strike as a bonus action. You are proficient."
+        },
+        "Ice": {
+          "title": "Ice Shaping",
+          "description": "Shape ice into simple objects.",
+          "effect": "Proficiency bonus times/long rest. As an action, create a simple ice object up to 5-ft cube (AC 13, 15 HP, vulnerable to fire). Lasts 1 hour."
+        },
+        "Lightning": {
+          "title": "Defibrillator Jolt",
+          "description": "Attempt to revive the recently dead.",
+          "effect": "1/long rest. Touch a creature dead no longer than 1 minute. Roll d20: 10+ it returns to life with 1 HP; 9− it takes 2d6 lightning and fails a death save if at 0."
+        },
+        "Nature": {
+          "title": "Rapid Growth",
+          "description": "Instantly grow thick foliage for cover.",
+          "effect": "1/short rest, concentration up to 1 minute. 20-ft square within 30 ft becomes difficult terrain and provides half cover."
+        },
+        "Weird": {
+          "title": "Phantasm",
+          "description": "Create a realistic silent illusion.",
+          "effect": "1/short rest. Cast silent image without components; it can create minor sounds and acts realistically without concentration for 1 minute."
+        },
+        "Physical": {
+          "title": "Crippling Strike",
+          "description": "An attack that halts movement.",
+          "effect": "1/short rest. As an action, melee weapon attack: on hit +2d6 damage and target makes CON save or speed reduced to 0 until start of your next turn."
+        },
+        "Wind": {
+          "title": "Gust Front",
+          "description": "A wall of wind that pushes and deflects.",
+          "effect": "1/short rest. 30-ft line, 10 ft wide. STR save or pushed 20 ft + 2d4 bludgeoning; ranged attacks through the line have disadvantage until start of your next turn."
+        }
+      }
+    },
+    {
+      "id": "spells_3",
+      "label": "Spells III",
+      "cost": 3,
+      "requires": ["spells_2"],
+      "description": "Long-rest based powerful magic – a signature “big spell”.",
+      "effect": "Choose one elemental variation upon unlocking. You gain that powerful spell.",
+      "elements": {
+        "Fire": {
+          "title": "Fireball",
+          "description": "The classic explosion of flame.",
+          "effect": "1/long rest. Cast fireball as a 3rd-level spell (8d6 fire, DEX save, 20-ft radius). Save DC = 8 + prof + your choice of INT/WIS/CHA."
+        },
+        "Ice": {
+          "title": "Frost Spray",
+          "description": "A cone of numbing frost that freezes the ground.",
+          "effect": "1/long rest. 30-ft cone, CON save or 6d8 cold (half on success). Ground becomes icy difficult terrain until start of your next turn."
+        },
+        "Lightning": {
+          "title": "Lightning Beam",
+          "description": "A devastating beam of lightning.",
+          "effect": "1/long rest. 60-ft line, DEX save or 8d6 lightning (half on success). A creature that fails can’t take reactions until start of your next turn."
+        },
+        "Nature": {
+          "title": "Call of the Wild",
+          "description": "Summon beasts to fight for you.",
+          "effect": "1/long rest, concentration up to 1 hour. Summon a dire wolf, two giant spiders, or four swarms of ravens that obey your commands."
+        },
+        "Weird": {
+          "title": "Chaos Wave",
+          "description": "A wave of unpredictable, maddening energy.",
+          "effect": "1/long rest. 30-ft cone, CHA save. Roll 1d6 per target for effect: 1–2: 6d6 psychic + stunned until end of next turn (half damage on success, no stun). 3–4: 4d8 thunder + deafened (half damage, no deafen). 5–6: 4d10 necrotic + frightened (half damage, no frightened)."
+        },
+        "Physical": {
+          "title": "Earthquake Stomp",
+          "description": "Stomp to shatter the earth.",
+          "effect": "1/long rest. 20-ft radius centred on you (you immune); DEX save or 6d6 bludgeoning, knocked prone & restrained by rubble (action to escape). Half damage on success."
+        },
+        "Wind": {
+          "title": "Tornado Blast",
+          "description": "Summon a towering tornado.",
+          "effect": "1/long rest. 120-ft range, 20-ft radius, 40-ft tall cylinder; STR save or 4d8 bludgeoning and lifted 30 ft (fall damage applies). Half damage on success. Disadvantage on ranged attacks in the area."
+        }
+      }
+    }
+  ]
+}
