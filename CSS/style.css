@@ -1,0 +1,438 @@
+:root {
+    --bg: #120f0a;
+    --panel: #2a2116;
+    --panel-edge: #5c4629;
+    --text: #efe3c2;
+    --muted: #b8a684;
+    --gold: #c8a45a;
+    --gold-bright: #e4c887;
+    --line: #7b6440;
+    --locked: #3a3023;
+    --available: #6f4f2a;
+    --unlocked: #3d6b3f;
+}
+
+body {
+    margin: 0;
+    font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    background: radial-gradient(circle at 20% 10%, #2a2014 0%, #171108 45%, #0f0b06 100%);
+    color: var(--text);
+}
+
+.logo {
+    width: 128px;
+    height: 72px;
+    margin-right: 12px;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+}
+.return-home-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+    font-size: 1.35rem;
+    color: var(--gold-bright);
+    background:
+        radial-gradient(circle at 30% 25%, #5a4528 0%, #3a2c1b 45%, #23180f 100%);
+    border: 2px solid var(--gold);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 232, 176, 0.28),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.45),
+        0 6px 14px rgba(0, 0, 0, 0.55);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    transition: transform 0.15s ease, filter 0.15s ease, box-shadow 0.15s ease;
+}
+
+  .return-home-btn:hover {
+    background: #3a3a3a;
+    transform: scale(1.05);
+  }
+
+  .return-home-btn:active {
+    transform: scale(0.98);
+  }
+
+
+.ui {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    padding: 8px 12px;
+    background: linear-gradient(180deg, #3a2d1c 0%, #241b11 100%);
+    border-bottom: 2px solid var(--panel-edge);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.btn {
+    background: linear-gradient(180deg, #5b3f21 0%, #3f2c18 100%);
+    color: var(--text);
+    border: 1px solid #8c6a3a;
+    box-shadow: inset 0 1px 0 rgba(255, 228, 170, 0.2), 0 1px 3px rgba(0, 0, 0, 0.4);
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    filter: brightness(1.08);
+}
+
+/* Compact tiny buttons for +/- */
+.btn-sm {
+    padding: 2px 5px;
+    font-size: 11px;
+    min-width: 22px;
+    text-align: center;
+}
+
+#pointsInfo {
+    margin-left: 6px;
+    color: var(--gold-bright);
+    text-shadow: 0 0 4px rgba(200, 164, 90, 0.35);
+    font-size: 13px;
+}
+
+#msg {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 12px;
+    font-style: italic;
+}
+
+#treeSvg {
+    overflow: visible !important; 
+    transition: transform 0.15s ease-out; 
+    display: block;
+}
+
+#skillTreeContainer {
+    width: 100%;
+    height: calc(100vh - 56px);
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: #120d07;
+    background-image:
+        radial-gradient(circle at 50% 50%, rgba(76, 58, 32, 0.22) 0%, rgba(20, 15, 10, 0.94) 75%),
+        repeating-linear-gradient(45deg, rgba(255, 235, 180, 0.02) 0 2px, rgba(0, 0, 0, 0) 2px 8px);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.page-content {
+    width: 100%;
+    min-height: calc(100vh - 56px);
+    display: block;
+    padding: 24px clamp(16px, 3vw, 40px);
+    box-sizing: border-box;
+    background-color: #120d07;
+    background-image:
+        radial-gradient(circle at 50% 50%, rgba(76, 58, 32, 0.22) 0%, rgba(20, 15, 10, 0.94) 75%),
+        repeating-linear-gradient(45deg, rgba(255, 235, 180, 0.02) 0 2px, rgba(0, 0, 0, 0) 2px 8px);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* Optional: use when you want this section to scroll internally */
+.tree-content--scroll {
+    max-height: calc(100vh - 56px);
+    overflow-y: auto;
+}
+
+.link {
+    stroke: var(--line);
+    stroke-width: 3;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.6));
+}
+
+.node {
+    cursor: pointer;
+}
+
+.node circle {
+    stroke: var(--gold);
+    stroke-width: 2.2;
+    transition: transform 0.12s ease, stroke 0.12s ease;
+    transform-origin: center;
+    transform-box: fill-box;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.55));
+}
+
+.node text {
+    fill: #f5ead1;
+    font-size: 13px;
+    text-anchor: middle;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+
+.node.locked circle { fill: var(--locked); stroke: #6f5a39; }
+.node.available circle { fill: var(--available); stroke: #d1ae6a; }
+.node.unlocked circle { fill: var(--unlocked); stroke: #9fd5a3; }
+
+.node:hover circle {
+    transform: scale(1.03);
+    stroke: var(--gold-bright);
+}
+
+.element-picker {
+    position: fixed;
+    right: 14px;
+    bottom: 14px;
+    z-index: 5;
+    background: linear-gradient(180deg, #3a2d1c 0%, #241b11 100%);
+    border: 1px solid #8c6a3a;
+    border-radius: 8px;
+    padding: 8px 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.45);
+    color: #efe3c2;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.element-picker select {
+    background: #2a2116;
+    color: #efe3c2;
+    border: 1px solid #8c6a3a;
+    border-radius: 6px;
+    padding: 4px 6px;
+    font-family: inherit;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.modal-content {
+    background: linear-gradient(145deg, #2a2116 0%, #1f180f 100%);
+    border: 2px solid var(--panel-edge);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+    color: var(--text);
+}
+
+.modal-content h2 {
+    margin: 0 0 8px 0;
+    color: var(--gold-bright);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 6px;
+}
+
+.modal-content p {
+    margin: 8px 0;
+    line-height: 1.4;
+}
+
+.modal-content .effect {
+    color: #c5d0f5;
+    font-style: italic;
+}
+
+.modal-content .cost {
+    color: var(--gold);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.overview-panel {
+position: fixed;
+top: 43px; /* below the toolbar */
+right: 0;
+width: 260px;
+height: calc(100vh - 56px);
+background: linear-gradient(180deg, #2a2116 0%, #1a130c 100%);
+border-left: 2px solid #8c6a3a;
+box-shadow: -2px 0 8px rgba(0,0,0,0.5);
+padding: 16px;
+overflow-y: auto;
+z-index: 3;
+transition: transform 0.25s ease;
+transform: translateX(0);
+}
+.overview-panel.hidden {
+transform: translateX(100%);
+}
+.overview-panel h3 {
+margin: 0 0 12px 0;
+color: var(--gold-bright);
+border-bottom: 1px solid var(--line);
+padding-bottom: 6px;
+font-size: 16px;
+}
+.overview-item {
+margin-bottom: 12px;
+padding-bottom: 8px;
+border-bottom: 1px dashed #5c4629;
+}
+.overview-item .ov-title {
+font-weight: bold;
+color: #e0cfa2;
+}
+.overview-item .ov-effect {
+font-size: 12px;
+color: #c5d0f5;
+font-style: italic;
+margin-top: 4px;
+}
+.no-unlocks {
+color: var(--muted);
+font-style: italic;
+}
+
+/* Notion-like separators */
+.separator {
+    border: 0;
+    height: 1px;
+    margin: 12px 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(228, 200, 135, 0.45) 15%,
+        rgba(228, 200, 135, 0.45) 85%,
+        transparent 100%
+    );
+}
+
+/* Use for separating topic blocks with a small label in the middle */
+.topic-separator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0 12px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.topic-separator::before,
+.topic-separator::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(228, 200, 135, 0.35);
+}
+
+/* Centered overview area */
+.overview-center {
+    min-height: calc(100vh - 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(16px, 4vw, 40px);
+}
+
+/* Fade top/bottom so it blends into the page background */
+.overview-fade {
+    width: 100%;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+}
+
+/* Minimal 4-column overview table */
+.overview-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    background: linear-gradient(180deg, rgba(42, 33, 22, 0.82) 0%, rgba(26, 19, 12, 0.82) 100%);
+    border: 1px solid rgba(140, 106, 58, 0.55);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.overview-table th,
+.overview-table td {
+    width: 25%;
+    padding: 14px 12px;
+    text-align: left;
+    vertical-align: top;
+    border-right: 1px solid rgba(123, 100, 64, 0.35);
+}
+
+.overview-table th:last-child,
+.overview-table td:last-child {
+    border-right: 0;
+}
+
+.ov-h1 {
+    color: var(--gold-bright);
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.overview-table th {
+    border-bottom: 1px solid rgba(123, 100, 64, 0.5);
+}
+
+.overview-table td {
+    color: var(--text);
+    font-size: 13px;
+}
+
+.content {
+    font-size: 14px;
+    margin: 0;
+    color: var(--text);
+}
+
+.zoom-btn {
+    background: linear-gradient(180deg, #5b3f21 0%, #3f2c18 100%);
+    color: var(--text);
+    border: 1px solid #8c6a3a;
+    box-shadow: inset 0 1px 0 rgba(255, 228, 170, 0.2), 0 1px 3px rgba(0, 0, 0, 0.4);
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+.zoom-control-out {
+    position: fixed;
+    right: 240px;
+    bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 5000000;
+}
+
+.zoom-control-in {
+    position: fixed;
+    right: 185px;
+    bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 5000000;
+}
