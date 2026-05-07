@@ -14,6 +14,7 @@
   <h1>Resources</h1>
   <p>Hier sind alle wichtigen Resourcen für die Kampagne sortiert.</p>
 
+
   <search>
   <label>
     Suche:
@@ -26,25 +27,46 @@
 
   <section>
     <h3>Ergebnis:</h3>
-    <ul id="results">
-      <!-- search result content -->
-    </ul>
-    <output id="no-results">
-      <!-- no results content -->
-    </output>
+    <p id="no-results" hidden>Keine Treffer gefunden.</p>
   </section>
 </search>
 
 <!-- List with all files -->
-    <list>
+    <ul id="resource-list">
         <li><a href="../Resources/CharSheet.pdf" target="_blank">Chaaracter Sheet PDF</a></li>
-    </list>
+    </ul>
 
 </div>
 
 <!-- 
 <script src="../JS/Skilltree.js"></script> 
 -->
+
+<script>
+  const queryInput = document.getElementById('query');
+  const exactOnly = document.getElementById('exact-only');
+  const resourceList = document.getElementById('resource-list');
+  const noResults = document.getElementById('no-results');
+
+  function filterResources() {
+    const query = queryInput.value.trim().toLowerCase();
+    const items = resourceList.querySelectorAll('li');
+    let visibleCount = 0;
+
+    items.forEach((item) => {
+      const text = item.textContent.trim().toLowerCase();
+      const matches = exactOnly.checked ? text === query : text.includes(query);
+      item.hidden = query ? !matches : false;
+      if (!item.hidden) visibleCount += 1;
+    });
+
+    noResults.hidden = visibleCount > 0;
+  }
+
+  queryInput.addEventListener('input', filterResources);
+  exactOnly.addEventListener('change', filterResources);
+  filterResources();
+</script>
 
 </body>
 </html>
