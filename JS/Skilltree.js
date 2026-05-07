@@ -577,6 +577,6 @@
     });
 
     // ---------- START ----------
-    // Defer so the container has been laid out and offsetWidth/Height are non-zero
+
     requestAnimationFrame(() => loadTree(defaultTree));
   })();

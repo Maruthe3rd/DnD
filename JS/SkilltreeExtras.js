@@ -77,6 +77,7 @@
       drawTree();
     }
 
-})();
+// ---------- START ----------    
+  createElementPicker();
 
-createElementPicker();
+})();
