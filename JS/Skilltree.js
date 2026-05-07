@@ -466,35 +466,6 @@
       });
     }
 
-    // ---------- ELEMENT PICKER ----------
-    function createElementPicker() {
-      const container = document.createElement("div");
-      container.className = "element-picker";
-      container.innerHTML = `<label for="elementSelect">Element:</label>`;
-
-      const select = document.createElement("select");
-      select.id = "elementSelect";
-      ELEMENTS.forEach(el => {
-        const opt = document.createElement("option");
-        opt.value = el;
-        opt.textContent = el;
-        if (el === selectedElement) opt.selected = true;
-        select.appendChild(opt);
-      });
-
-      select.addEventListener("change", () => {
-        selectedElement = select.value;
-        localStorage.setItem("selectedElement", selectedElement);
-        applyElementToTree();
-        updateHUD();
-        drawTree();
-        setMessage(`Element set to "${selectedElement}".`);
-      });
-
-      container.appendChild(select);
-      document.body.appendChild(container);
-    }
-
     // ---------- EXAMPLE TREE ----------
     function generateExampleTree() {
       return {
@@ -606,7 +577,6 @@
     });
 
     // ---------- START ----------
-    createElementPicker();
     // Defer so the container has been laid out and offsetWidth/Height are non-zero
     requestAnimationFrame(() => loadTree(defaultTree));
   })();
