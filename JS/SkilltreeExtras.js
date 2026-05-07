@@ -1,4 +1,4 @@
-(function(){
+/*(function(){
     const ELEMENTS = ["Neutral", "Fire", "Ice", "Water", "Earth", "Air", "Lightning", "Shadow", "Light"];
     let selectedElement = localStorage.getItem("selectedElement") || "Neutral";
         
@@ -79,3 +79,4 @@
 
 // ---------- START ----------    
 })();
+*/
