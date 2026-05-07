@@ -65,7 +65,7 @@
       document.body.appendChild(container);
     }
 
-    function loadTreeE(data) {
+    function loadTree(data) {
       tree = validateTree(structuredClone(data));
       applyCardinalLayout(tree);
       unlocked.clear();
