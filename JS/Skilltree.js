@@ -317,75 +317,107 @@
 
     
     function drawTree() {
-      // Attach SVG into the container if not already there
-      const container = document.getElementById('skillTreeContainer');
-      if (container) {
-        if (svg.parentElement !== container) container.appendChild(svg);
-        // offsetWidth/Height are reliable after layout; fall back to viewport size
-        const w = container.offsetWidth || window.innerWidth || 1200;
-        const h = container.offsetHeight || (window.innerHeight - 56) || 800;
-        svg.setAttribute('width', w);
-        svg.setAttribute('height', h);
-        svg.style.width = w + 'px';
-        svg.style.height = h + 'px';
+      if (!tree) return;
+      // ensure positions exist
+      for (const n of tree.nodes) {
+        if (typeof n.x !== 'number' || typeof n.y !== 'number') {
+          n.x = Math.random() * 800 + 100;
+          n.y = Math.random() * 400 + 100;
+        }
+      }
+
+      // simple separation to avoid overlaps
+      const MIN_DIST = 70;
+      for (let iter = 0; iter < 8; ++iter) {
+        let moved = false;
+        for (let i = 0; i < tree.nodes.length; ++i) {
+          for (let j = i+1; j < tree.nodes.length; ++j) {
+            const a = tree.nodes[i], b = tree.nodes[j];
+            let dx = b.x - a.x, dy = b.y - a.y;
+            let d2 = dx*dx + dy*dy;
+            if (d2 === 0) { dx = (Math.random()-0.5); dy = (Math.random()-0.5); d2 = dx*dx+dy*dy; }
+            const d = Math.sqrt(d2);
+            if (d < MIN_DIST) {
+              const push = (MIN_DIST - d) / 2;
+              const ux = dx / d, uy = dy / d;
+              b.x += ux * push;
+              b.y += uy * push;
+              a.x -= ux * push;
+              a.y -= uy * push;
+              moved = true;
+            }
+          }
+        }
+        if (!moved) break;
       }
 
       clearSvg();
-      if (!tree) return;
+      const container = document.getElementById('skillTreeContainer');
+      const WIDTH = (container?.offsetWidth || window.innerWidth || 1200);
+      const HEIGHT = (container?.offsetHeight || (window.innerHeight - 56) || 800);
+      svg.setAttribute('width', WIDTH);
+      svg.setAttribute('height', HEIGHT);
+      svg.setAttribute('data-scale','1');
+      if (!document.getElementById('skillTreeContainer')?.contains(svg))
+        document.getElementById('skillTreeContainer')?.appendChild(svg);
 
       const byId = Object.fromEntries(tree.nodes.map(n => [n.id, n]));
 
+      // draw connections first (behind nodes)
       for (const node of tree.nodes) {
-        for (const reqId of (node.requires || [])) {
-          const from = byId[reqId];
-          if (!from) continue;
-          const line = document.createElementNS(SVG_NS, "line");
-          line.setAttribute("x1", from.x);
-          line.setAttribute("y1", from.y);
-          line.setAttribute("x2", node.x);
-          line.setAttribute("y2", node.y);
-          line.setAttribute("class", "link");
-          if (unlocked.has(reqId) && unlocked.has(node.id)) {
-            line.setAttribute("stroke", "#37cf84");
-          }
-          svg.appendChild(line);
+        for (const req of node.requires || []) {
+          const src = byId[req];
+          if (!src) continue;
+          const x1 = src.x, y1 = src.y, x2 = node.x, y2 = node.y;
+          const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+          // perpendicular offset to reduce line crossings
+          const vx = x2 - x1, vy = y2 - y1;
+          const len = Math.max(1, Math.hypot(vx, vy));
+          const px = -vy / len, py = vx / len;
+          const offset = 30; // fixed curvature
+          const cx = mx + px * offset, cy = my + py * offset;
+
+          const path = document.createElementNS(SVG_NS, 'path');
+          path.setAttribute('d', `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
+          path.setAttribute('fill','none');
+          path.setAttribute('stroke','#888');
+          path.setAttribute('stroke-width','3');
+          svg.appendChild(path);
         }
       }
 
+      // draw nodes
       for (const node of tree.nodes) {
-        const g = document.createElementNS(SVG_NS, "g");
-        g.setAttribute("class", `node ${nodeState(node)}`);
-        g.setAttribute("transform", `translate(${node.x},${node.y})`);
+        const g = document.createElementNS(SVG_NS, 'g');
+        g.setAttribute('transform', `translate(${node.x}, ${node.y})`);
+        g.style.cursor = 'pointer';
 
-        const circle = document.createElementNS(SVG_NS, "circle");
-        circle.setAttribute("r", "38");
+        const state = nodeState(node);
+        const color = state === 'unlocked' ? '#4caf50' : state === 'available' ? '#2196f3' : '#bbb';
 
-        const titleText = document.createElementNS(SVG_NS, "text");
-        titleText.setAttribute("y", "-4");
-        titleText.textContent = node.label;
+        const circle = document.createElementNS(SVG_NS, 'circle');
+        circle.setAttribute('r', '28');
+        circle.setAttribute('cx', 0);
+        circle.setAttribute('cy', 0);
+        circle.setAttribute('fill', color);
+        circle.setAttribute('stroke', '#222');
+        circle.setAttribute('stroke-width', '2');
+        g.appendChild(circle);
 
-        const costText = document.createElementNS(SVG_NS, "text");
-        costText.setAttribute("y", "16");
-        costText.setAttribute("fill", "#c5d0f5");
-        costText.setAttribute("font-size", "12");
-        costText.textContent = `Cost: ${node.cost ?? 1}`;
+        const txt = document.createElementNS(SVG_NS, 'text');
+        txt.setAttribute('x', 0);
+        txt.setAttribute('y', 6);
+        txt.setAttribute('text-anchor', 'middle');
+        txt.setAttribute('font-size', '10');
+        txt.setAttribute('fill', '#fff');
+        txt.textContent = node.label || node.id;
+        g.appendChild(txt);
 
-        g.append(circle, titleText, costText);
-
-        g.addEventListener("mouseenter", () => setMessage(`${node.label} — ${node.description || 'No description'}`));
-        g.addEventListener("mouseleave", () => setMessage(""));
-
-        g.addEventListener("click", (e) => {
-          e.stopPropagation();
-          showNodeModal(node);
-        });
-
+        g.addEventListener('click', (e) => { e.stopPropagation(); showNodeModal(node); });
         svg.appendChild(g);
       }
 
-        if (overviewPanel && !overviewPanel.classList.contains("hidden")) {
-            refreshOverview();
-        }
+      updateHUD();
     }
 
     // ---------- TREE I/O ----------

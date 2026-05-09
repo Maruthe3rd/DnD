@@ -66,12 +66,12 @@
         "Fire": {
           "title": "Life Burn",
           "description": "Sacrifice life force to ignite your strikes.",
-          "effect": "Bonus action, 1/short rest. Take 1d4 irreducible necrotic damage. Until end of your next turn, weapon attacks and fire spells deal +1d4 fire damage."
+          "effect": "Bonus action, 1/short rest. Take 1d4 irreducible necrotic damage. Until end of your next turn, weapon attacks and fire spells deal +1d6 fire damage."
         },
         "Ice": {
           "title": "Cold Head",
           "description": "Freeze your emotions, gaining mental clarity.",
-          "effect": "Bonus action, 1/short rest. For 1 minute: advantage on WIS & INT saves, immunity to charmed and frightened."
+          "effect": "Bonus action, 1/short rest. For 1 minute: advantage on WIS & INT saves, immunity to charmed and frightened but disadvantage on Initiative."
         },
         "Lightning": {
           "title": "Lightning Reflexes",
@@ -86,7 +86,8 @@
         "Weird": {
           "title": "Chaos Infusion",
           "description": "Embrace randomness to gain unpredictable power.",
-          "effect": "Bonus action, 1/short rest. Roll 1d6 for a random 1-minute buff: 1: +2 AC; 2: +1d4 damage on all attacks; 3: fly speed 30 ft (hover); 4: resistance to all damage; 5: regain 2d8 HP at the start of each turn; 6: advantage on all attack rolls."
+          "effect": "Bonus action, 1/short rest. Roll 1d6 for a random 1-minute buff.",
+          "note": ": 1: +2 AC; 2: +1d4 damage on all attacks; 3: fly speed 30 ft (hover); 4: resistance to all damage; 5: regain 2d8 HP at the start of each turn; 6: advantage on all attack rolls."
         },
         "Physical": {
           "title": "Iron Body",
