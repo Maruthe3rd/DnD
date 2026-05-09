@@ -84,7 +84,7 @@
         : unlockedNodes.map(n => `
             <div class="overview-item">
             <div class="ov-title">${n.label}</div>
-            <div class="ov-effect">unknown...</div>
+            <div class="ov-effect">${n.effect}</div>
             </div>
         `).join('');
     }
@@ -126,7 +126,7 @@
         <div class="modal-content">
           <h2>${node.label}</h2>
           <p><strong>Description:</strong> ${node.description || '—'}</p>
-          <p class="effect"><strong>Effect:</strong> ${node.effect || '—'}</p>
+          <p class="effect"><strong>Effect:</strong>unknown...</p>
           <p class="cost"><strong>Cost:</strong> ${node.cost ?? 1} point${node.cost !== 1 ? 's' : ''}</p>
           <p><strong>${reqText}</strong> ${reqLabels}</p>
           <p><strong>Status:</strong> ${state.charAt(0).toUpperCase() + state.slice(1)}</p>

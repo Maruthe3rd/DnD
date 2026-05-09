@@ -20,7 +20,7 @@
       "id": "EAT",
       "label": "8-Arms",
       "cost": 1,
-      "requires": ["root"],
+      "requires": ["root", "Sweep", "Barrage"],
       "description": "Focus your ki to strike with all your limbs.",
       "effect": "Cost: 2 stamina; Effect: make 2 unarmed attacks at disadvantage.",
       "elements": {
@@ -34,7 +34,7 @@
       "id": "Sweep",
       "label": "Sweep",
       "cost": 1,
-      "requires": ["EAT", "Barrage"],
+      "requires": ["EAT", "Barrage", "Burst"],
       "description": "Use your leg to trip nearby opponents.",
       "effect": "Cost: 3 stamina; Effect: make a sweeping attack that targets all creatures within 2 meters. Each target must succeed on a DC 10 Dexterity saving throw or take half of an unarmed attack damage.",
       "elements": {
@@ -48,7 +48,7 @@
       "id": "Barrage",
       "label": "Barrage",
       "cost": 1,
-      "requires": ["EAT", "Sweep"],
+      "requires": ["EAT", "Sweep", "Light", "Pres-Points"],
       "description": "Unleash a flurry of strikes on your target.",
       "effect": "Cost: 2 stamina per attack; Effect: Unleashe (n) unarmed strikes with disadvantage against a target each dealing 1d4 bludgeoning damage.",
       "elements": {
@@ -121,7 +121,7 @@
       "id": "Heavy",
       "label": "Heavy",
       "cost": 1,
-      "requires": ["Strike", "Light", "Shake"],
+      "requires": ["Strike", "Light", "Shake", "Counter"],
       "description": "",
       "effect": "",
       "elements": {
@@ -135,7 +135,7 @@
       "id": "Disarm",
       "label": "Disarm",
       "cost": 1,
-      "requires": ["Light", "Barrage"],
+      "requires": ["Light", "Barrage", "Shake"],
       "description": "",
       "effect": "",
       "elements": {
@@ -165,7 +165,7 @@
       "id": "Balance",
       "label": "Balance",
       "cost": 1,
-      "requires": ["root"],
+      "requires": ["root", "Restore", "Ki"],
       "description": "",
       "effect": "",
       "elements": {
@@ -179,7 +179,7 @@
       "id": "Restore",
       "label": "Restore",
       "cost": 1,
-      "requires": ["Balance"],
+      "requires": ["Balance", "Flow", "InnerPeace", "Burst"],
       "description": "",
       "effect": "",
       "elements": {
@@ -193,7 +193,7 @@
       "id": "Ki",
       "label": "Ki",
       "cost": 1,
-      "requires": ["Restore"],
+      "requires": ["Balance", "InnerPeace", "PurifyBody"],
       "description": "",
       "effect": "",
       "elements": {
@@ -207,7 +207,7 @@
       "id": "Flow",
       "label": "Flow",
       "cost": 1,
-      "requires": ["Restore"],
+      "requires": ["Restore", "InnerPeace"],
       "description": "",
       "effect": "",
       "elements": {
@@ -221,7 +221,7 @@
       "id": "InnerPeace",
       "label": "Inner Peace",
       "cost": 1,
-      "requires": ["Flow", "Restore", "Ki"],
+      "requires": ["Flow", "Restore", "Ki", "PurifyBody"],
       "description": "",
       "effect": "",
       "elements": {
@@ -235,7 +235,7 @@
       "id": "PurifyBody",
       "label": "Purify Body",
       "cost": 1,
-      "requires": ["Flow", "InnerPeace"],
+      "requires": ["Flow", "InnerPeace", "Throw"],
       "description": "",
       "effect": "",
       "elements": {
@@ -251,7 +251,7 @@
       "id": "Trap",
       "label": "Trap",
       "cost": 1,
-      "requires": ["Breath"],
+      "requires": ["root", "Throw", "Counter"],
       "description": "",
       "effect": "",
       "elements": {
@@ -265,7 +265,7 @@
       "id": "Counter",
       "label": "Counter",
       "cost": 1,
-      "requires": ["Trap"],
+      "requires": ["Trap", "Heavy", "Block"],
       "description": "",
       "effect": "",
       "elements": {
@@ -279,7 +279,7 @@
       "id": "Throw",
       "label": "Throw",
       "cost": 1,
-      "requires": ["Trap"],
+      "requires": ["Trap", "PurifyBody", "Lock"],
       "description": "",
       "effect": "",
       "elements": {
@@ -293,7 +293,7 @@
       "id": "Block",
       "label": "Block",
       "cost": 1,
-      "requires": ["Counter"],
+      "requires": ["Counter", "Lock"],
       "description": "",
       "effect": "",
       "elements": {
