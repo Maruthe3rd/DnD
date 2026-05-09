@@ -1,35 +1,34 @@
 {
-  "name": "Martial Arts Tree V1",
+  "name": "Martial Arts Tree V2",
   "points": 5,
+  "hasElements": false,
   "nodes": [
     {
       "id": "root",
       "label": "Breath",
       "cost": 1,
       "requires": [],
-      "description": "You have learned to master your breath.",
-      "effect": "Bonus Action: you can recover 1d4 stamina.",
+      "x": 600,
+      "y": 450,
       "elements": {
         "Neutral": {
           "description": "You have learned to master your breath.",
           "effect": "Bonus Action: you can recover 1d4 stamina."
         }
-      },
-      "x": 250,
-      "y": 750
+      }
     },
     {
       "id": "EAT",
       "label": "8-Arms",
       "cost": 1,
       "requires": ["root", "Sweep", "Barrage"],
-      "description": "Focus your ki to strike with all your limbs.",
-      "effect": "Cost: 2 stamina; Effect: make 2 unarmed attacks at disadvantage.",
+      "x": 600,
+      "y": 150,
       "elements": {
-          "Neutral": {
-            "description": "Focus your ki to strike with all your limbs.",
-            "effect": "Cost: 2 stamina; Effect: make 2 unarmed attacks at disadvantage."
-          }
+        "Neutral": {
+          "description": "Focus your ki to strike with all your limbs.",
+          "effect": "Cost: 2 stamina; Effect: make 2 unarmed attacks at disadvantage."
+        }
       }
     },
     {
@@ -37,8 +36,8 @@
       "label": "Sweep",
       "cost": 1,
       "requires": ["EAT", "Barrage", "Burst"],
-      "description": "Use your leg to trip nearby opponents.",
-      "effect": "Cost: 3 stamina; Effect: make a sweeping attack that targets all creatures within 2 meters. Each target must succeed on a DC 10 Dexterity saving throw or take half of an unarmed attack damage.",
+      "x": 380,
+      "y": 220,
       "elements": {
         "Neutral": {
           "description": "Use your leg to trip nearby opponents.",
@@ -51,12 +50,12 @@
       "label": "Barrage",
       "cost": 1,
       "requires": ["EAT", "Sweep", "Light", "Pres-Points"],
-      "description": "Unleash a flurry of strikes on your target.",
-      "effect": "Cost: 2 stamina per attack; Effect: Unleashe (n) unarmed strikes with disadvantage against a target each dealing 1d4 bludgeoning damage.",
+      "x": 820,
+      "y": 220,
       "elements": {
         "Neutral": {
           "description": "Unleash a flurry of strikes on your target.",
-          "effect": "Cost: 2 stamina per attack; Effect: Unleashe (n) unarmed strikes with disadvantage against a target each dealing 1d4 bludgeoning damage."
+          "effect": "Cost: 2 stamina per attack; Effect: Unleash (n) unarmed strikes with disadvantage against a target each dealing 1d4 bludgeoning damage."
         }
       }
     },
@@ -65,8 +64,8 @@
       "label": "Pressure Points",
       "cost": 1,
       "requires": ["Barrage"],
-      "description": "Strike your opponent's vital points to stun them.",
-      "effect": "Cost: 0 stamina; Effect: Instead of dealing damage, you can apply a Stun Counter to the target with a successful attack.",
+      "x": 1000,
+      "y": 130,
       "elements": {
         "Neutral": {
           "description": "Strike your opponent's vital points to stun them.",
@@ -79,29 +78,26 @@
       "label": "Burst",
       "cost": 1,
       "requires": ["Sweep"],
-      "description": "Release a burst of energy to strike multiple foes around you.",
-      "effect": "Cost: 3 stamina; Effect: Force every creature within 3 meters to make a DC 12 Dexterity saving throw. On a failed save, a creature takes 1d6 bludgeoning damage. On a successful save, a creature takes half damage. This is considered an unarmed attack. After this action, you cannot make any other attacks during the turn.",
+      "x": 280,
+      "y": 340,
       "elements": {
         "Neutral": {
           "description": "Release a burst of energy to strike multiple foes around you.",
           "effect": "Cost: 3 stamina; Effect: Force every creature within 3 meters to make a DC 12 Dexterity saving throw. On a failed save, a creature takes 1d6 bludgeoning damage. On a successful save, a creature takes half damage. This is considered an unarmed attack. After this action, you cannot make any other attacks during the turn."
         }
       }
-    }, 
-
-
-
+    },
     {
       "id": "Strike",
       "label": "Strike",
       "cost": 1,
       "requires": ["root", "Heavy", "Light"],
-      "description": "Use your martial Arts skills to strike your opponents.",
-      "effect": "Cost: 0 stamina; Effect: When attacking with an unarmed strike instead of dealing damage, you can apply one of these Effects to your opponent. <br> - Grab: grapple the target (if they are the same size as you or smaller) <br> - Push: push them back 10ft <br> - Swap: swap places with the creature <br> - Steal: you take an item on their person that they are not wielding or wearing <br> - Trip: knock them prone <br> You can spend 2 Stamina to apply two of these effects on the same attack.",
+      "x": 870,
+      "y": 450,
       "elements": {
         "Neutral": {
           "description": "Use your martial Arts skills to strike your opponents.",
-          "effect": "When attacking with an unarmed strike instead of dealing damage, you can apply one of these Effects to your opponent. <br> - Grab: grapple the target (if they are the same size as you or smaller) <br> - Push: push them back 10ft <br> - Swap: swap places with the creature <br> - Steal: you take an item on their person that they are not wielding or wearing <br> - Trip: knock them prone <br> You can spend 2 Stamina to apply two of these effects on the same attack."
+          "effect": "Cost: 0 stamina; Effect: When attacking with an unarmed strike instead of dealing damage, you can apply one of these Effects to your opponent. <br> - Grab: grapple the target (if they are the same size as you or smaller) <br> - Push: push them back 10ft <br> - Swap: swap places with the creature <br> - Steal: you take an item on their person that they are not wielding or wearing <br> - Trip: knock them prone <br> You can spend 2 Stamina to apply two of these effects on the same attack."
         }
       }
     },
@@ -110,8 +106,8 @@
       "label": "Light",
       "cost": 1,
       "requires": ["Strike", "Disarm", "Barrage", "Heavy"],
-      "description": "",
-      "effect": "",
+      "x": 1000,
+      "y": 330,
       "elements": {
         "Neutral": {
           "description": "Just one more...",
@@ -124,12 +120,12 @@
       "label": "Heavy",
       "cost": 1,
       "requires": ["Strike", "Light", "Shake", "Counter"],
-      "description": "",
-      "effect": "",
+      "x": 1000,
+      "y": 570,
       "elements": {
         "Neutral": {
           "description": "All for one (strike).",
-          "effect": "Cost: 1 stamina; Effect: Add +10 to your next unarmed attack’s damage, but you cannot make any other attacks other than that attack this turn."
+          "effect": "Cost: 1 stamina; Effect: Add +10 to your next unarmed attack's damage, but you cannot make any other attacks other than that attack this turn."
         }
       }
     },
@@ -138,8 +134,8 @@
       "label": "Disarm",
       "cost": 1,
       "requires": ["Light", "Barrage", "Shake"],
-      "description": "",
-      "effect": "",
+      "x": 1120,
+      "y": 200,
       "elements": {
         "Neutral": {
           "description": "Disarm your opponent to gain the upper hand.",
@@ -152,24 +148,22 @@
       "label": "Shake",
       "cost": 1,
       "requires": ["Heavy", "Disarm"],
-      "description": "",
-      "effect": "",
+      "x": 1150,
+      "y": 470,
       "elements": {
         "Neutral": {
           "description": "Wield the power of Truck-kun in your hands.",
-          "effect": "When you hit a creature with the Heavy Strike ability, force them to make a Constitution Saving Throw against your Martial DC.  On a fail, they suffer 2 of the effects from your Strike ability."
+          "effect": "When you hit a creature with the Heavy Strike ability, force them to make a Constitution Saving Throw against your Martial DC. On a fail, they suffer 2 of the effects from your Strike ability."
         }
       }
     },
-
-
     {
       "id": "Balance",
       "label": "Balance",
       "cost": 1,
       "requires": ["root", "Restore", "Ki"],
-      "description": "",
-      "effect": "",
+      "x": 330,
+      "y": 450,
       "elements": {
         "Neutral": {
           "description": "Recover your Focus.",
@@ -182,8 +176,8 @@
       "label": "Restore",
       "cost": 1,
       "requires": ["Balance", "Flow", "InnerPeace", "Burst"],
-      "description": "",
-      "effect": "",
+      "x": 180,
+      "y": 320,
       "elements": {
         "Neutral": {
           "description": "Master the arts of recovery.",
@@ -196,8 +190,8 @@
       "label": "Ki",
       "cost": 1,
       "requires": ["Balance", "InnerPeace", "PurifyBody"],
-      "description": "",
-      "effect": "",
+      "x": 180,
+      "y": 580,
       "elements": {
         "Neutral": {
           "description": "Find Energy in Exhaustion.",
@@ -210,8 +204,8 @@
       "label": "Flow",
       "cost": 1,
       "requires": ["Restore", "InnerPeace"],
-      "description": "",
-      "effect": "",
+      "x": 90,
+      "y": 180,
       "elements": {
         "Neutral": {
           "description": "Go with the flow.",
@@ -224,8 +218,8 @@
       "label": "Inner Peace",
       "cost": 1,
       "requires": ["Flow", "Restore", "Ki", "PurifyBody"],
-      "description": "",
-      "effect": "",
+      "x": 260,
+      "y": 190,
       "elements": {
         "Neutral": {
           "description": "Find tranquility in the storm.",
@@ -238,8 +232,8 @@
       "label": "Purify Body",
       "cost": 1,
       "requires": ["Flow", "InnerPeace", "Throw"],
-      "description": "",
-      "effect": "",
+      "x": 90,
+      "y": 700,
       "elements": {
         "Neutral": {
           "description": "Meditate to regain your strength.",
@@ -247,15 +241,13 @@
         }
       }
     },
-
-
     {
       "id": "Trap",
       "label": "Trap",
       "cost": 1,
       "requires": ["root", "Throw", "Counter"],
-      "description": "",
-      "effect": "",
+      "x": 600,
+      "y": 680,
       "elements": {
         "Neutral": {
           "description": "Make your enemies regret attacking you.",
@@ -268,8 +260,8 @@
       "label": "Counter",
       "cost": 1,
       "requires": ["Trap", "Heavy", "Block"],
-      "description": "",
-      "effect": "",
+      "x": 820,
+      "y": 760,
       "elements": {
         "Neutral": {
           "description": "Turn the tables on your enemies.",
@@ -282,8 +274,8 @@
       "label": "Throw",
       "cost": 1,
       "requires": ["Trap", "PurifyBody", "Lock"],
-      "description": "",
-      "effect": "",
+      "x": 380,
+      "y": 760,
       "elements": {
         "Neutral": {
           "description": "Create some personal space.",
@@ -296,8 +288,8 @@
       "label": "Block",
       "cost": 1,
       "requires": ["Counter", "Lock"],
-      "description": "",
-      "effect": "",
+      "x": 980,
+      "y": 670,
       "elements": {
         "Neutral": {
           "description": "Defend yourself against incoming attacks.",
@@ -310,8 +302,8 @@
       "label": "Lock",
       "cost": 1,
       "requires": ["Throw", "Block"],
-      "description": "",
-      "effect": "",
+      "x": 600,
+      "y": 870,
       "elements": {
         "Neutral": {
           "description": "Lock your opponent's limbs to restrain them.",

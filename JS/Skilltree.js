@@ -126,7 +126,7 @@
         <div class="modal-content">
           <h2>${node.label}</h2>
           <p><strong>Description:</strong> ${node.description || '—'}</p>
-          <p class="effect"><strong>Effect:</strong>unknown...</p>
+          <p class="effect"><strong>Effect:</strong> ${node.effect || '—'}</p>
           <p class="cost"><strong>Cost:</strong> ${node.cost ?? 1} point${node.cost !== 1 ? 's' : ''}</p>
           <p><strong>${reqText}</strong> ${reqLabels}</p>
           <p><strong>Status:</strong> ${state.charAt(0).toUpperCase() + state.slice(1)}</p>
@@ -231,6 +231,7 @@
       }
       data.name = data.name || "Custom Tree";
       data.points = Number.isFinite(data.points) ? Math.max(0, data.points) : 5;
+      data.hasElements = data.hasElements !== false; // default true; set false in JSON to hide element picker
       return data;
     }
 
@@ -245,9 +246,12 @@
 
       const byId = Object.fromEntries(treeData.nodes.map(n => [n.id, n]));
       
-      // Initialize positions: use custom positions if provided, otherwise randomize
+      // Initialize positions: pin nodes that already have custom x/y, randomize the rest
       for (const node of treeData.nodes) {
-        if (!Number.isFinite(node.x) || !Number.isFinite(node.y)) {
+        if (Number.isFinite(node.x) && Number.isFinite(node.y)) {
+          node.pinned = true; // keep custom coordinates fixed throughout simulation
+        } else {
+          node.pinned = false;
           node.x = CENTER_X + (Math.random() - 0.5) * 400;
           node.y = CENTER_Y + (Math.random() - 0.5) * 400;
         }
@@ -256,7 +260,8 @@
       }
 
       const root = byId.root || treeData.nodes.find(n => (n.requires || []).length === 0);
-      if (root) {
+      if (root && !root.pinned) {
+        // Only snap root to center if it has no custom position
         root.x = CENTER_X;
         root.y = CENTER_Y;
       }
@@ -326,10 +331,10 @@
           node.fy += (dy / dist) * radialForce;
         }
 
-        // Damping and velocity update
+        // Damping and velocity update — skip pinned nodes (they have custom coordinates)
         const damping = 0.7;
         for (const node of treeData.nodes) {
-          if (node === root) continue; // root stays fixed
+          if (node.pinned) continue; // fixed: either root snapped to center or user-defined x/y
           node.vx = (node.vx + node.fx) * damping;
           node.vy = (node.vy + node.fy) * damping;
           node.x += node.vx;
@@ -448,6 +453,7 @@
       setMessage(`Loaded "${tree.name}".`);
       updateHUD();
       selectedElement = "Neutral";
+      updateElementPickerVisibility();
       drawTree();
     }
 
@@ -458,8 +464,9 @@
         points: tree.points,
         nodes: tree.nodes.map(n => ({
           id: n.id,
-          x: n.x,
-          y: n.y,
+          label: n.baseLabel || n.label,
+          x: Math.round(n.x),
+          y: Math.round(n.y),
           cost: n.cost,
           requires: [...(n.requires || [])],
           elements: n.elements || {}
@@ -558,11 +565,12 @@
       };
     }
 
-        // ---------- ELEMENT PICKER ----------
+    // ---------- ELEMENT PICKER ----------
     function createElementPicker() {
-      if (document.title.includes("Martial Arts")) {return}
+      if (document.getElementById("elementPickerContainer")) return; // already created
       const container = document.createElement("div");
       container.className = "element-picker";
+      container.id = "elementPickerContainer";
       container.innerHTML = `<label for="elementSelect">Element:</label>`;
 
       const select = document.createElement("select");
@@ -586,6 +594,13 @@
 
       container.appendChild(select);
       document.body.appendChild(container);
+    }
+
+    function updateElementPickerVisibility() {
+      const container = document.getElementById("elementPickerContainer");
+      if (!container) return;
+      // Hide the picker when the tree has hasElements: false in its JSON
+      container.style.display = (tree?.hasElements === false) ? "none" : "";
     }
 
     // ---------- DEFAULT TREE ----------
