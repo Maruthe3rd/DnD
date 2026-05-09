@@ -7,7 +7,7 @@
       "label": "Base",
       "cost": 0,
       "requires": [],
-      "description": "The entry point to your elemental journey, granting access to all elemental paths.",
+      "description": "The entry point to your elemental journey, granting access to all paths.",
       "effect": "Grants access to summon small non-damaging instances of your element."
     },
     {
@@ -15,13 +15,13 @@
       "label": "Buff / Doping I",
       "cost": 1,
       "requires": ["root"],
-      "description": "Temporary self-enhancement techniques from various elements.",
+      "description": "Temporary self-enhancement techniques.",
       "effect": "Choose one elemental variation upon unlocking. You gain that buff ability.",
       "elements": {
         "Fire": {
           "title": "Rage",
           "description": "Let fury drive your might, risking your sanity.",
-          "effect": "Bonus action, 1/long rest. For 1 minute: +2 melee damage, advantage on STR checks/saves. Can’t cast spells or maintain concentration; vulnerability to psychic."
+          "effect": "Bonus action, 1/short rest. For 1 minute: +2 melee damage, advantage on STR checks/saves. Can’t cast spells or maintain concentration; vulnerability to psychic."
         },
         "Ice": {
           "title": "Frostbite",
@@ -35,8 +35,8 @@
         },
         "Nature": {
           "title": "Flowerfield",
-          "description": "Create a blooming sanctuary that mends wounds.",
-          "effect": "Action, 1/long rest, concentration up to 1 minute. 20-ft radius restorative bloom: any creature that starts its turn there regains 1d4 hit points."
+          "description": "Create a blooming sanctuary that mends wounds and clears minds.",
+          "effect": "Action, 1/short rest, concentration up to 1 minute. 20-ft radius restorative bloom: any friendly creature that starts its turn there regains 1d4 hit points and removes negative & agitative effects."
         },
         "Weird": {
           "title": "Motivational Illusion",
@@ -46,7 +46,7 @@
         "Physical": {
           "title": "Muscle Surge",
           "description": "Overcharge your muscles for a burst of power.",
-          "effect": "Bonus action, 1/short rest. For 1 minute: STR +2 (max 22), speed +10 ft. When it ends, gain 1 level of exhaustion."
+          "effect": "Bonus action, 1/short rest. For 1 minute: STR +2 and speed +10 ft. When it ends, gain 1 level of exhaustion."
         },
         "Wind": {
           "title": "Tailwind Impact",
