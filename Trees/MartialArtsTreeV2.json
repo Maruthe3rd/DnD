@@ -171,7 +171,7 @@
       "elements": {
         "Neutral": {
           "description": "Recover your Focus.",
-          "effect": "You regain 1d4 of stamina at the end of your turn if you do not deal damage during it. Additionally, you gain an additional stamina if you did not spend stamina this turn."
+          "effect": "You regain 1d4 of stamina and lose 1 exhaustion level at the end of your turn if you do not deal damage during it. Additionally, you gain an additional stamina if you did not spend stamina this turn."
         }
       }
     },

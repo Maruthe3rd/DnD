@@ -36,7 +36,7 @@
         "Nature": {
           "title": "Flowerfield",
           "description": "Create a blooming sanctuary that mends wounds and clears minds.",
-          "effect": "Action, 1/short rest, concentration up to 1 minute. 20-ft radius restorative bloom: any friendly creature that starts its turn there regains 1d4 hit points and removes negative & agitative effects."
+          "effect": "Action, 1/short rest, concentration up to 1 minute. 6m radius restorative bloom: any friendly creature that starts its turn there regains 1d4 hit points and removes negative & agitative effects."
         },
         "Weird": {
           "title": "Motivational Illusion",
@@ -87,7 +87,7 @@
           "title": "Chaos Infusion",
           "description": "Embrace randomness to gain unpredictable power.",
           "effect": "Bonus action, 1/short rest. Roll 1d6 for a random 1-minute buff.",
-          "note": ": 1: +2 AC; 2: +1d4 damage on all attacks; 3: fly speed 30 ft (hover); 4: resistance to all damage; 5: regain 2d8 HP at the start of each turn; 6: advantage on all attack rolls."
+          "note": ": 1: +2 AC; 2: +1d4 damage on all attacks; 3: fly speed 10m (hover); 4: resistance to all damage; 5: regain 2d8 HP at the start of each turn; 6: advantage on all attack rolls."
         },
         "Physical": {
           "title": "Iron Body",
@@ -112,37 +112,38 @@
         "Fire": {
           "title": "Phoenix Flames",
           "description": "Cheat death with a fiery rebirth and retaliation.",
-          "effect": "Reaction when reduced to 0 HP but not killed outright, 1/long rest. You instead regain 1d10+CON HP. Creatures within 10 ft make DEX save or take 2d6 fire. You stand up if prone. Transform all flames into healing flames for 3 turns."
+          "effect": "Action: 1/short rest. Transform all flames into healing flames for 3 turns."
         },
         "Ice": {
           "title": "Ice Armour",
           "description": "Encase yourself in solid ice.",
-          "effect": "Action, 1/long rest. For 1 hour: AC becomes 18 (if not higher), resistance to fire, vulnerability to bludgeoning from creatures larger than you, speed −10 ft."
+          "effect": "Action, 1/short rest. For 3 turns: AC becomes 18 (if higher then +3 AC), no disadvantage against fire, vulnerability to bludgeoning from creatures larger than you, speed −10 ft."
         },
         "Lightning": {
           "title": "Ball Lightning",
           "description": "Become a living lightning bolt, zipping through battle.",
-          "effect": "Bonus action, 1/long rest. For 1 minute: gain fly speed equal to walk speed (hover); you can move through creatures; each creature you pass through must make DEX save or take 3d6 lightning (once per creature)."
+          "effect": "Bonus action, 1/long rest. For 1 turn: gain fly speed equal to walk speed (hover); you can move through creatures; each creature you pass through takes 1d6 lightning (once per creature) after which you will gain +1 Action."
         },
         "Nature": {
           "title": "Verdant Overgrowth",
-          "description": "Summon a rejuvenating, hostile thicket.",
-          "effect": "Action, 1/long rest, concentration up to 1 minute. 30-ft aura: difficult terrain for enemies; at the start of your turn, up to 3 allies in the aura regain 2d6 HP."
+          "description": "Summon a hostile thicket.",
+          "effect": "Action, 1/long rest, concentration up to 1 minute. 10m aura: difficult terrain for enemies; have advantages on saves in the terrain and on attacks against enemies in it."
         },
         "Weird": {
           "title": "Wild Mending",
           "description": "Twist fate to heal or harm yourself.",
-          "effect": "Bonus action, 1/short rest. Roll a d20: 6–20: regain that many −5 HP (min 1). 1–5: take 5 psychic damage."
+          "effect": "Bonus action, 1/short rest. Roll a d20: 1–5: take 5 psychic damage. 6–19: regain that many −5 HP (min 1). 20: unknown...",
+          "note": "gain 5 permenant HP and end one condition affecting you."
         },
         "Physical": {
           "title": "Adrenaline Overload",
           "description": "Push beyond mortal limits at great cost.",
-          "effect": "Action, 1/long rest. For 1 minute: +4 STR & DEX (max 24), speed +20 ft, advantage on STR & DEX checks. After it ends, suffer 3 levels of exhaustion."
+          "effect": "Action, 1/long rest. For 1 minute: +4 STR & DEX, speed +20 ft, advantage on STR & DEX checks. After it ends, suffer 3 levels of exhaustion."
         },
         "Wind": {
           "title": "Eye of the Storm",
           "description": "Create a protective vortex of calm within chaos.",
-          "effect": "Action, 1/long rest, concentration up to 1 minute. 10-ft radius, 20-ft tall cylinder: you and allies inside have resistance to ranged weapon attacks; enemies entering must make STR save or be pushed back 10 ft."
+          "effect": "Action, 1/short rest, concentration up to 1 minute. 3m radius, 6m tall cylinder: you and allies inside have resistance to ranged weapon attacks; enemies entering must make STR save or be pushed back 10 ft."
         }
       }
     },
@@ -157,37 +158,38 @@
         "Fire": {
           "title": "Blazing Aura",
           "description": "Wreathe yourself in scorching flames.",
-          "effect": "Bonus action, 1/short rest. For 1 minute: at start of your turn, creatures within 5 ft take fire damage equal to your proficiency bonus. Your melee attacks deal +1 fire damage."
+          "effect": "Cost: lvl 1 SpellS.; Effect: Bonus Action. For 1 minute at start of your turn, creatures within 1m take fire damage equal to your proficiency bonus. Your melee attacks deal +1 fire damage."
         },
         "Ice": {
           "title": "Chilling Imbue",
           "description": "Coat your weapon with bitter cold.",
-          "effect": "Bonus action, 1/short rest. For 1 minute: weapon attacks deal +1d4 cold; hit creature must make CON save or speed −10 ft until start of your next turn."
+          "effect": "Cost: lvl 1 SpellS.; Effect: Bonus action. For 1 minute attacks deal +1d4 cold; hit creature must make CON save or speed −3 m until start of your next turn."
         },
         "Lightning": {
           "title": "Overcharge",
           "description": "Overload your system for a quick second wind.",
-          "effect": "Bonus action, 1/short rest. On your next turn, you can take one additional action."
+          "effect": "Cost: lvl 1 SpellS.; Effect: Bonus action. On your next turn, you can take one additional action."
         },
         "Nature": {
           "title": "Wooden Arsenal",
           "description": "Grow wooden weapons and poison them.",
-          "effect": "Bonus action, 1/short rest. For 1 minute: as a free action summon any wooden simple or martial melee weapon (you are proficient). The weapon deals +1d4 poison damage."
+          "effect": "Cost: lvl 1 SpellS.; Effect: Bonus action. For 1 minute: as a free action summon any wooden simple or martial melee weapon (you are proficient). The weapon deals +1d4 poison damage. Attacks with the weapon count as unarmed attacks."
         },
         "Weird": {
           "title": "Bizarre Blast",
           "description": "Unleash a chaotic bolt of raw energy.",
-          "effect": "Action, 1/short rest. Ranged spell attack, 60 ft. On hit roll a d8 for effect: 1: 2d6 acid, target can’t take reactions until next turn. 2: 2d6 cold, speed halved until next turn. 3: 2d6 fire, ignited. 4: 2d6 lightning, target loses any resistance until next turn. 5: 2d6 necrotic, you gain temp HP equal to damage dealt. 6: 2d6 psychic, target frightened until next turn. 7: 2d6 radiant, target blinded until next turn. 8: 2d6 thunder, pushed 10 ft."
+          "effect": "Cost: lvl 1 SpellS.; Effect: Action. Ranged spell attack, 20m. On hit roll a d8 for effect.",
+          "note": "1: 2d6 acid, target can’t take reactions until next turn. 2: 2d6 cold, speed halved until next turn. 3: 2d6 fire, ignited. 4: 2d6 lightning, target loses any resistance until next turn. 5: 2d6 necrotic, you gain temp HP equal to damage dealt. 6: 2d6 psychic, target frightened until next turn. 7: 2d6 radiant, target blinded until next turn. 8: 2d6 thunder, pushed 3m."
         },
         "Physical": {
           "title": "Brute Force Strike",
           "description": "Deliver a powerful, staggering blow.",
-          "effect": "Action, 1/short rest. Melee weapon attack: on hit, +2d6 weapon damage and target must make STR save or be knocked prone."
+          "effect": "Cost: lvl 1 SpellS.; Effect: Action. Melee attacks hit +2d6 damage and target must make STR save or be knocked prone."
         },
         "Wind": {
           "title": "Gust Slash",
           "description": "Weapon strikes unleash cutting wind.",
-          "effect": "Bonus action, 1/short rest. For 1 minute: when you hit with a weapon attack, target makes STR save or pushed 15 ft + 1d6 bludgeoning."
+          "effect": "Cost: lvl 1 SpellS.; Effect: Bonus action. For 1 minute: when you hit with an attack, target makes STR save or pushed 5m, + 1d6 bludgeoning and is winded for one round."
         }
       }
     },
@@ -202,7 +204,7 @@
         "Fire": {
           "title": "Flame Wave",
           "description": "Sweep a fan of flames before you.",
-          "effect": "Action, 1/short rest. 15-ft cone, DEX save: 3d6 fire (half on success). Ignites unattended flammables."
+          "effect": "Cost: lvl 1 SpellS.; Effect: Action. Control it's dimensions: max 10m range & 90°, DEX save: 3d6 fire (half on success). Ignites unattended flammables."
         },
         "Ice": {
           "title": "Glacial Spike",
@@ -217,7 +219,7 @@
         "Nature": {
           "title": "Tree Bomb",
           "description": "Summon explosive, entangling vegetation.",
-          "effect": "Action, 1/short rest. 30-ft range, 10-ft radius growth (lasts 1 min). Creatures in area: DEX save or 3d6 piercing and restrained (action to escape, STR check)."
+          "effect": "Action, 1/short rest. 10m range, 10m radius growth (lasts 1 min). Creatures in area: DEX save or 3d6 piercing and restrained (action to escape, STR check)."
         },
         "Weird": {
           "title": "Desperate Gamble",
@@ -232,7 +234,7 @@
         "Wind": {
           "title": "Vortex Kick",
           "description": "Launch foes into the air with a cyclone kick.",
-          "effect": "Action, 1/short rest. 30-ft range, 10-ft radius: STR save or 3d6 bludgeoning, lifted 20 ft and fall prone. Half damage on success, no lift."
+          "effect": "Action, 1/short rest. 10m range, 10m radius: STR save or 3d6 bludgeoning, lifted 10m and fall prone. Half damage on success, no lift."
         }
       }
     },
@@ -247,17 +249,17 @@
         "Fire": {
           "title": "Meteor Strike",
           "description": "Call down a blazing meteor from the sky.",
-          "effect": "Action, 1/long rest. 120 ft range, 20-ft radius: DEX save for 8d6 fire + 4d6 bludgeoning (half on success). Ground becomes difficult terrain for 1 minute."
+          "effect": "Action, 1/long rest. 35m range, 6m radius: DEX save for 8d6 fire + 4d6 bludgeoning (half on success). Ground becomes difficult terrain for 1 minute."
         },
         "Ice": {
           "title": "Blizzard Barrage",
           "description": "Unleash a localized blizzard that blinds all.",
-          "effect": "Action, 1/long rest. 30-ft radius centred on you (you immune). Creatures CON save or 6d6 cold, blinded & deafened until end of your next turn; half on success. Area heavily obscured until then."
+          "effect": "Action, 1/long rest. 10m radius centred on you (you immune). Creatures CON save or 6d6 cold, blinded & deafened until end of your next turn; half on success. Area heavily obscured until then."
         },
         "Lightning": {
           "title": "Chain Lightning Storm",
           "description": "Electrify multiple targets and teleport.",
-          "effect": "Action, 1/long rest. Up to 6 creatures within 60 ft, DEX save or 10d6 lightning; half on success. Afterward, you may teleport up to 30 ft as a bonus action."
+          "effect": "Action, 1/long rest. Up to 6 creatures within 60 ft, DEX save or 10d6 lightning; half on success. Afterward, you may teleport up to 10m as a bonus action."
         },
         "Nature": {
           "title": "Wrath of the Wild",

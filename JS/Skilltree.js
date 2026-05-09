@@ -315,7 +315,6 @@
       svg.setAttribute("data-scale", newScale);
     }
 
-    
     function drawTree() {
       if (!tree) return;
       // ensure positions exist
