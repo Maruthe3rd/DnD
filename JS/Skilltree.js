@@ -237,15 +237,27 @@
       const WIDTH = (container?.offsetWidth || window.innerWidth || 1200);
       const HEIGHT = (container?.offsetHeight || (window.innerHeight - 56) || 800);
       const CENTER_X = WIDTH / 2, CENTER_Y = HEIGHT / 2;
-      const LAYER_GAP = 170, SIBLING_GAP = 95;
+      const NODE_RADIUS = 50; // collision radius for nodes
+      const REPEL_STRENGTH = 500; // repulsion force between nodes
+      const LINK_STRENGTH = 0.5; // attraction force along edges
 
       const byId = Object.fromEntries(treeData.nodes.map(n => [n.id, n]));
+      
+      // Initialize positions randomly around center
+      for (const node of treeData.nodes) {
+        node.x = CENTER_X + (Math.random() - 0.5) * 400;
+        node.y = CENTER_Y + (Math.random() - 0.5) * 400;
+        node.vx = 0;
+        node.vy = 0;
+      }
+
       const root = byId.root || treeData.nodes.find(n => (n.requires || []).length === 0);
-      if (!root) return;
+      if (root) {
+        root.x = CENTER_X;
+        root.y = CENTER_Y;
+      }
 
-      root.x = CENTER_X;
-      root.y = CENTER_Y;
-
+      // Build parent-child relationships
       const childrenMap = new Map();
       for (const n of treeData.nodes) {
         for (const req of (n.requires || [])) {
@@ -254,44 +266,77 @@
         }
       }
 
-      const dirs = [
-        { dx: -1, dy: 0, px: 0, py: 1 },
-        { dx: 0, dy: -1, px: 1, py: 0 },
-        { dx: 1, dy: 0, px: 0, py: 1 },
-        { dx: 0, dy: 1, px: 1, py: 0 }
-      ];
-
-      const rootChildren = childrenMap.get(root.id) || [];
-      const placed = new Set([root.id]);
-
-      rootChildren.forEach((cat, i) => {
-        const d = dirs[i % dirs.length];
-        cat.x = CENTER_X + d.dx * LAYER_GAP;
-        cat.y = CENTER_Y + d.dy * LAYER_GAP;
-        placed.add(cat.id);
-
-        const queue = [{ node: cat, depth: 1 }];
-        while (queue.length) {
-          const { node: parent, depth } = queue.shift();
-          const kids = (childrenMap.get(parent.id) || []).filter(k => !placed.has(k.id));
-          if (!kids.length) continue;
-
-          const span = (kids.length - 1) * SIBLING_GAP;
-          kids.forEach((kid, idx) => {
-            const offset = idx * SIBLING_GAP - span / 2;
-            kid.x = CENTER_X + d.dx * (LAYER_GAP * (depth + 1)) + d.px * offset;
-            kid.y = CENTER_Y + d.dy * (LAYER_GAP * (depth + 1)) + d.py * offset;
-            placed.add(kid.id);
-            queue.push({ node: kid, depth: depth + 1 });
-          });
+      // Force-directed simulation iterations
+      const ITERATIONS = 60;
+      for (let iter = 0; iter < ITERATIONS; iter++) {
+        // Reset forces
+        for (const node of treeData.nodes) {
+          node.fx = 0;
+          node.fy = 0;
         }
-      });
 
-      // Ensure any unplaced nodes (e.g., disconnected) get a default position to avoid missing coordinates
-      for (const node of treeData.nodes) {
-        if (!placed.has(node.id)) {
-          node.x = CENTER_X + (Math.random() - 0.5) * 200;
-          node.y = CENTER_Y + (Math.random() - 0.5) * 200;
+        // Repulsion forces (avoid overlaps)
+        for (let i = 0; i < treeData.nodes.length; i++) {
+          for (let j = i + 1; j < treeData.nodes.length; j++) {
+            const n1 = treeData.nodes[i];
+            const n2 = treeData.nodes[j];
+            const dx = n2.x - n1.x;
+            const dy = n2.y - n1.y;
+            const dist = Math.sqrt(dx * dx + dy * dy) + 0.01;
+            const minDist = NODE_RADIUS * 2;
+
+            if (dist < minDist * 3) {
+              const force = REPEL_STRENGTH / (dist * dist);
+              const fx = (dx / dist) * force;
+              const fy = (dy / dist) * force;
+              n1.fx -= fx;
+              n1.fy -= fy;
+              n2.fx += fx;
+              n2.fy += fy;
+            }
+          }
+        }
+
+        // Attraction forces along edges (children toward parents)
+        for (const node of treeData.nodes) {
+          for (const reqId of (node.requires || [])) {
+            const parent = byId[reqId];
+            if (!parent) continue;
+            const dx = parent.x - node.x;
+            const dy = parent.y - node.y;
+            const dist = Math.sqrt(dx * dx + dy * dy) + 0.01;
+            const force = dist * LINK_STRENGTH;
+            node.fx += (dx / dist) * force;
+            node.fy += (dy / dist) * force;
+          }
+        }
+
+        // Radial push from center to spread nodes
+        for (const node of treeData.nodes) {
+          if (node === root) continue;
+          const dx = node.x - CENTER_X;
+          const dy = node.y - CENTER_Y;
+          const dist = Math.sqrt(dx * dx + dy * dy) + 0.01;
+          const radialForce = 50;
+          node.fx += (dx / dist) * radialForce;
+          node.fy += (dy / dist) * radialForce;
+        }
+
+        // Damping and velocity update
+        const damping = 0.7;
+        for (const node of treeData.nodes) {
+          if (node === root) continue; // root stays fixed
+          node.vx = (node.vx + node.fx) * damping;
+          node.vy = (node.vy + node.fy) * damping;
+          node.x += node.vx;
+          node.y += node.vy;
+        }
+
+        // Boundary constraints
+        const margin = 100;
+        for (const node of treeData.nodes) {
+          node.x = Math.max(margin, Math.min(WIDTH - margin, node.x));
+          node.y = Math.max(margin, Math.min(HEIGHT - margin, node.y));
         }
       }
     }
@@ -315,108 +360,77 @@
       svg.setAttribute("data-scale", newScale);
     }
 
+    
     function drawTree() {
-      if (!tree) return;
-      // ensure positions exist
-      for (const n of tree.nodes) {
-        if (typeof n.x !== 'number' || typeof n.y !== 'number') {
-          n.x = Math.random() * 800 + 100;
-          n.y = Math.random() * 400 + 100;
-        }
-      }
-
-      // simple separation to avoid overlaps
-      const MIN_DIST = 70;
-      for (let iter = 0; iter < 8; ++iter) {
-        let moved = false;
-        for (let i = 0; i < tree.nodes.length; ++i) {
-          for (let j = i+1; j < tree.nodes.length; ++j) {
-            const a = tree.nodes[i], b = tree.nodes[j];
-            let dx = b.x - a.x, dy = b.y - a.y;
-            let d2 = dx*dx + dy*dy;
-            if (d2 === 0) { dx = (Math.random()-0.5); dy = (Math.random()-0.5); d2 = dx*dx+dy*dy; }
-            const d = Math.sqrt(d2);
-            if (d < MIN_DIST) {
-              const push = (MIN_DIST - d) / 2;
-              const ux = dx / d, uy = dy / d;
-              b.x += ux * push;
-              b.y += uy * push;
-              a.x -= ux * push;
-              a.y -= uy * push;
-              moved = true;
-            }
-          }
-        }
-        if (!moved) break;
+      // Attach SVG into the container if not already there
+      const container = document.getElementById('skillTreeContainer');
+      if (container) {
+        if (svg.parentElement !== container) container.appendChild(svg);
+        // offsetWidth/Height are reliable after layout; fall back to viewport size
+        const w = container.offsetWidth || window.innerWidth || 1200;
+        const h = container.offsetHeight || (window.innerHeight - 56) || 800;
+        svg.setAttribute('width', w);
+        svg.setAttribute('height', h);
+        svg.style.width = w + 'px';
+        svg.style.height = h + 'px';
       }
 
       clearSvg();
-      const container = document.getElementById('skillTreeContainer');
-      const WIDTH = (container?.offsetWidth || window.innerWidth || 1200);
-      const HEIGHT = (container?.offsetHeight || (window.innerHeight - 56) || 800);
-      svg.setAttribute('width', WIDTH);
-      svg.setAttribute('height', HEIGHT);
-      svg.setAttribute('data-scale','1');
-      if (!document.getElementById('skillTreeContainer')?.contains(svg))
-        document.getElementById('skillTreeContainer')?.appendChild(svg);
+      if (!tree) return;
 
       const byId = Object.fromEntries(tree.nodes.map(n => [n.id, n]));
 
-      // draw connections first (behind nodes)
       for (const node of tree.nodes) {
-        for (const req of node.requires || []) {
-          const src = byId[req];
-          if (!src) continue;
-          const x1 = src.x, y1 = src.y, x2 = node.x, y2 = node.y;
-          const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
-          // perpendicular offset to reduce line crossings
-          const vx = x2 - x1, vy = y2 - y1;
-          const len = Math.max(1, Math.hypot(vx, vy));
-          const px = -vy / len, py = vx / len;
-          const offset = 30; // fixed curvature
-          const cx = mx + px * offset, cy = my + py * offset;
-
-          const path = document.createElementNS(SVG_NS, 'path');
-          path.setAttribute('d', `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`);
-          path.setAttribute('fill','none');
-          path.setAttribute('stroke','#888');
-          path.setAttribute('stroke-width','3');
-          svg.appendChild(path);
+        for (const reqId of (node.requires || [])) {
+          const from = byId[reqId];
+          if (!from) continue;
+          const line = document.createElementNS(SVG_NS, "line");
+          line.setAttribute("x1", from.x);
+          line.setAttribute("y1", from.y);
+          line.setAttribute("x2", node.x);
+          line.setAttribute("y2", node.y);
+          line.setAttribute("class", "link");
+          if (unlocked.has(reqId) && unlocked.has(node.id)) {
+            line.setAttribute("stroke", "#37cf84");
+          }
+          svg.appendChild(line);
         }
       }
 
-      // draw nodes
       for (const node of tree.nodes) {
-        const g = document.createElementNS(SVG_NS, 'g');
-        g.setAttribute('transform', `translate(${node.x}, ${node.y})`);
-        g.style.cursor = 'pointer';
+        const g = document.createElementNS(SVG_NS, "g");
+        g.setAttribute("class", `node ${nodeState(node)}`);
+        g.setAttribute("transform", `translate(${node.x},${node.y})`);
 
-        const state = nodeState(node);
-        const color = state === 'unlocked' ? '#4caf50' : state === 'available' ? '#2196f3' : '#bbb';
+        const circle = document.createElementNS(SVG_NS, "circle");
+        circle.setAttribute("r", "38");
 
-        const circle = document.createElementNS(SVG_NS, 'circle');
-        circle.setAttribute('r', '28');
-        circle.setAttribute('cx', 0);
-        circle.setAttribute('cy', 0);
-        circle.setAttribute('fill', color);
-        circle.setAttribute('stroke', '#222');
-        circle.setAttribute('stroke-width', '2');
-        g.appendChild(circle);
+        const titleText = document.createElementNS(SVG_NS, "text");
+        titleText.setAttribute("y", "-4");
+        titleText.textContent = node.label;
 
-        const txt = document.createElementNS(SVG_NS, 'text');
-        txt.setAttribute('x', 0);
-        txt.setAttribute('y', 6);
-        txt.setAttribute('text-anchor', 'middle');
-        txt.setAttribute('font-size', '10');
-        txt.setAttribute('fill', '#fff');
-        txt.textContent = node.label || node.id;
-        g.appendChild(txt);
+        const costText = document.createElementNS(SVG_NS, "text");
+        costText.setAttribute("y", "16");
+        costText.setAttribute("fill", "#c5d0f5");
+        costText.setAttribute("font-size", "12");
+        costText.textContent = `Cost: ${node.cost ?? 1}`;
 
-        g.addEventListener('click', (e) => { e.stopPropagation(); showNodeModal(node); });
+        g.append(circle, titleText, costText);
+
+        g.addEventListener("mouseenter", () => setMessage(`${node.label} — ${node.description || 'No description'}`));
+        g.addEventListener("mouseleave", () => setMessage(""));
+
+        g.addEventListener("click", (e) => {
+          e.stopPropagation();
+          showNodeModal(node);
+        });
+
         svg.appendChild(g);
       }
 
-      updateHUD();
+        if (overviewPanel && !overviewPanel.classList.contains("hidden")) {
+            refreshOverview();
+        }
     }
 
     // ---------- TREE I/O ----------
