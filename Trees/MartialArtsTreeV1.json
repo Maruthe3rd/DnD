@@ -93,13 +93,13 @@
       "id": "Strike",
       "label": "Strike",
       "cost": 1,
-      "requires": ["root"],
+      "requires": ["root", "Heavy", "Light"],
       "description": "Use your martial Arts skills to strike your opponents.",
       "effect": "Cost: 0 stamina; Effect: When attacking with an unarmed strike instead of dealing damage, you can apply one of these Effects to your opponent. <br> - Grab: grapple the target (if they are the same size as you or smaller) <br> - Push: push them back 10ft <br> - Swap: swap places with the creature <br> - Steal: you take an item on their person that they are not wielding or wearing <br> - Trip: knock them prone <br> You can spend 2 Stamina to apply two of these effects on the same attack.",
       "elements": {
         "Neutral": {
           "description": "Use your martial Arts skills to strike your opponents.",
-          "effect": "Cost: 0 stamina; Effect: When attacking with an unarmed strike instead of dealing damage, you can apply one of these Effects to your opponent. <br> - Grab: grapple the target (if they are the same size as you or smaller) <br> - Push: push them back 10ft <br> - Swap: swap places with the creature <br> - Steal: you take an item on their person that they are not wielding or wearing <br> - Trip: knock them prone <br> You can spend 2 Stamina to apply two of these effects on the same attack."
+          "effect": "When attacking with an unarmed strike instead of dealing damage, you can apply one of these Effects to your opponent. <br> - Grab: grapple the target (if they are the same size as you or smaller) <br> - Push: push them back 10ft <br> - Swap: swap places with the creature <br> - Steal: you take an item on their person that they are not wielding or wearing <br> - Trip: knock them prone <br> You can spend 2 Stamina to apply two of these effects on the same attack."
         }
       }
     },
@@ -107,13 +107,213 @@
       "id": "Light",
       "label": "Light",
       "cost": 1,
-      "requires": ["Strike"],
+      "requires": ["Strike", "Disarm", "Barrage", "Heavy"],
       "description": "",
       "effect": "",
       "elements": {
         "Neutral": {
-          "description": "If you hit with unarmed attacks 3 or more times in a turn ",
-          "effect": ""
+          "description": "Just one more...",
+          "effect": "Cost: 1 stamina; Effect: you can make one additional unarmed strike."
+        }
+      }
+    },
+    {
+      "id": "Heavy",
+      "label": "Heavy",
+      "cost": 1,
+      "requires": ["Strike", "Light", "Shake"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "All for one (strike).",
+          "effect": "Cost: 1 stamina; Effect: Add +10 to your next unarmed attack’s damage, but you cannot make any other attacks other than that attack this turn."
+        }
+      }
+    },
+    {
+      "id": "Disarm",
+      "label": "Disarm",
+      "cost": 1,
+      "requires": ["Light", "Barrage"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Disarm your opponent to gain the upper hand.",
+          "effect": "Cost: 1 stamina; Effect: When you hit a creature with an unarmed strike, you can attempt to disarm them. The target must succeed on a DC 12 Strength saving throw or drop one item they are holding 5 meters away or wield it yourself."
+        }
+      }
+    },
+    {
+      "id": "Shake",
+      "label": "Shake",
+      "cost": 1,
+      "requires": ["Heavy", "Disarm"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Wield the power of Truck-kun in your hands.",
+          "effect": "When you hit a creature with the Heavy Strike ability, force them to make a Constitution Saving Throw against your Martial DC.  On a fail, they suffer 2 of the effects from your Strike ability."
+        }
+      }
+    },
+
+
+    {
+      "id": "Balance",
+      "label": "Balance",
+      "cost": 1,
+      "requires": ["root"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Recover your Focus.",
+          "effect": "You regain 1d4 of stamina at the end of your turn if you do not deal damage during it. Additionally, you gain an additional stamina if you did not spend stamina this turn."
+        }
+      }
+    },
+    {
+      "id": "Restore",
+      "label": "Restore",
+      "cost": 1,
+      "requires": ["Balance"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Master the arts of recovery.",
+          "effect": "When you regain Stamina during Combat you regain that many Hit Points."
+        }
+      }
+    },
+    {
+      "id": "Ki",
+      "label": "Ki",
+      "cost": 1,
+      "requires": ["Restore"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Find Energy in Exhaustion.",
+          "effect": "Whenever you deal damage with an unarmed attack, you deal additional Radiant damage equal to the amount of stamina you have spent this turn."
+        }
+      }
+    },
+    {
+      "id": "Flow",
+      "label": "Flow",
+      "cost": 1,
+      "requires": ["Restore"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Go with the flow.",
+          "effect": "You can spend a bonus action to give a creature you can touch, 1d8 stamina, and reduce your stamina by that amount."
+        }
+      }
+    },
+    {
+      "id": "InnerPeace",
+      "label": "Inner Peace",
+      "cost": 1,
+      "requires": ["Flow", "Restore", "Ki"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Find tranquility in the storm.",
+          "effect": "Cost: 1 stamina; Effect: You can, as a bonus action, remove one of the following conditions <br> - Frightened <br> - Charmed <br> - Stunned <br> - Blinded <br> - Deafened"
+        }
+      }
+    },
+    {
+      "id": "PurifyBody",
+      "label": "Purify Body",
+      "cost": 1,
+      "requires": ["Flow", "InnerPeace"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Meditate to regain your strength.",
+          "effect": "Cost: 1 stamina; Effect: You can, as an action, meditate to regain 1d6 stamina. During this time, you are considered incapacitated and have a speed of 0 until the start of your next turn."
+        }
+      }
+    },
+
+
+    {
+      "id": "Trap",
+      "label": "Trap",
+      "cost": 1,
+      "requires": ["Breath"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Make your enemies regret attacking you.",
+          "effect": "Cost: 1 stamina; Effect: When you are hit with a melee attack, and you have nothing in your hands, you can attempt a grapple check against the attacker."
+        }
+      }
+    },
+    {
+      "id": "Counter",
+      "label": "Counter",
+      "cost": 1,
+      "requires": ["Trap"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Turn the tables on your enemies.",
+          "effect": "Cost: 2 stamina; Effect: When you are hit with a melee attack, you can make an unarmed strike against them."
+        }
+      }
+    },
+    {
+      "id": "Throw",
+      "label": "Throw",
+      "cost": 1,
+      "requires": ["Trap"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Create some personal space.",
+          "effect": "Cost: 1 stamina; Effect: When you are hit with a melee attack and you have nothing in your hands, you can attempt to throw the attacker. The target must succeed on a DC 12 Strength saving throw or be thrown 3m away from you."
+        }
+      }
+    },
+    {
+      "id": "Block",
+      "label": "Block",
+      "cost": 1,
+      "requires": ["Counter"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Defend yourself against incoming attacks.",
+          "effect": "Cost: 2 stamina; Effect: When you are hit with a melee attack, you can block it to half the damage."
+        }
+      }
+    },
+    {
+      "id": "Lock",
+      "label": "Lock",
+      "cost": 1,
+      "requires": ["Throw", "Block"],
+      "description": "",
+      "effect": "",
+      "elements": {
+        "Neutral": {
+          "description": "Lock your opponent's limbs to restrain them.",
+          "effect": "Cost: 2 stamina; Effect: When you grapple a creature, you can restrain them."
         }
       }
     }

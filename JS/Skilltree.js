@@ -84,7 +84,7 @@
         : unlockedNodes.map(n => `
             <div class="overview-item">
             <div class="ov-title">${n.label}</div>
-            <div class="ov-effect">${n.effect || '—'}</div>
+            <div class="ov-effect">unknown...</div>
             </div>
         `).join('');
     }
