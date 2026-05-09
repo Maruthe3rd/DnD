@@ -14,7 +14,9 @@
           "description": "You have learned to master your breath.",
           "effect": "Bonus Action: you can recover 1d4 stamina."
         }
-      }
+      },
+      "x": 250,
+      "y": 750
     },
     {
       "id": "EAT",

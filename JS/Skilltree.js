@@ -221,6 +221,8 @@
         node.cost = Number.isFinite(node.cost) ? Math.max(1, node.cost) : 1;
         node.requires = Array.isArray(node.requires) ? node.requires : [];
         if (!node.elements) node.elements = {};
+        node.x = Number.isFinite(node.x) ? node.x : undefined;
+        node.y = Number.isFinite(node.y) ? node.y : undefined;
       }
       for (const node of data.nodes) {
         for (const req of node.requires) {
@@ -243,10 +245,12 @@
 
       const byId = Object.fromEntries(treeData.nodes.map(n => [n.id, n]));
       
-      // Initialize positions randomly around center
+      // Initialize positions: use custom positions if provided, otherwise randomize
       for (const node of treeData.nodes) {
-        node.x = CENTER_X + (Math.random() - 0.5) * 400;
-        node.y = CENTER_Y + (Math.random() - 0.5) * 400;
+        if (!Number.isFinite(node.x) || !Number.isFinite(node.y)) {
+          node.x = CENTER_X + (Math.random() - 0.5) * 400;
+          node.y = CENTER_Y + (Math.random() - 0.5) * 400;
+        }
         node.vx = 0;
         node.vy = 0;
       }
