@@ -220,7 +220,7 @@
       node.vx = node.vy = 0;
     }
 
-    const REPEL = 500, ATTRACT = 0.5, RADIAL = 50, DAMPING = 0.7;
+   /* const REPEL = 500, ATTRACT = 0.5, RADIAL = 50, DAMPING = 0.7;
 
     for (let iter = 0; iter < 60; iter++) {
       // Reset forces
@@ -239,6 +239,7 @@
           }
         }
       }
+      
 
       // Edge attraction (children toward parents)
       for (const node of treeData.nodes) {
@@ -261,6 +262,7 @@
         node.fx += (dx / dist) * RADIAL;
         node.fy += (dy / dist) * RADIAL;
       }
+        
 
       // Integrate, skip root
       for (const node of treeData.nodes) {
@@ -271,6 +273,7 @@
         node.y  = Math.max(100, Math.min(HEIGHT - 100, node.y + node.vy));
       }
     }
+    */
   }
 
     // ---------- DRAWING ----------
