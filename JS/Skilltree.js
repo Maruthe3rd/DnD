@@ -274,6 +274,7 @@
       }
     }
     */
+    return treeData;
   }
 
     // ---------- DRAWING ----------
