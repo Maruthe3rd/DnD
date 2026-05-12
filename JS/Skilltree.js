@@ -372,7 +372,6 @@
     // ---------- TREE I/O ----------
     function loadTree(data) {
       tree = validateTree(structuredClone(data));
-      applyCardinalLayout(tree);
       unlocked.clear();
       pointsLeft = tree.points;
       cacheBaseLabels();
