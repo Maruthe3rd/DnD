@@ -205,7 +205,7 @@
 
 
     // ---------- VALIDATION & LAYOUT ----------
-  function applyCardinalLayout(treeData) {
+  function validateTree(treeData) {
     const container = document.getElementById('skillTreeContainer');
     const WIDTH  = container?.offsetWidth  || window.innerWidth  || 1200;
     const HEIGHT = container?.offsetHeight || window.innerHeight - 56 || 800;
