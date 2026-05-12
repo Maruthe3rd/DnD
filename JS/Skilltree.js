@@ -205,150 +205,73 @@
 
 
     // ---------- VALIDATION & LAYOUT ----------
-    function validateTree(data) {
-      if (data && typeof data.treeName === 'string' && Array.isArray(data.unlocked)) {
-        throw new Error("This file appears to be a progress JSON, not a tree JSON. Use 'Load progress JSON' instead.");
-      }
-      if (!data || !Array.isArray(data.nodes)) {
-        throw new Error("Invalid tree file: must contain a 'nodes' array at the top level.");
-      }
-      const ids = new Set();
-      for (const node of data.nodes) {
-        if (!node.id) throw new Error("Each node must have an 'id' field.");
-        if (typeof node.label !== "string") throw new Error(`Node "${node.id}" needs a 'label' string.`);
-        if (ids.has(node.id)) throw new Error(`Duplicate node id: ${node.id}`);
-        ids.add(node.id);
-        node.cost = Number.isFinite(node.cost) ? Math.max(1, node.cost) : 1;
-        node.requires = Array.isArray(node.requires) ? node.requires : [];
-        if (!node.elements) node.elements = {};
-        node.x = Number.isFinite(node.x) ? node.x : undefined;
-        node.y = Number.isFinite(node.y) ? node.y : undefined;
-      }
-      for (const node of data.nodes) {
-        for (const req of node.requires) {
-          if (!ids.has(req)) throw new Error(`Node "${node.id}" requires unknown id "${req}".`);
-        }
-      }
-      data.name = data.name || "Custom Tree";
-      data.points = Number.isFinite(data.points) ? Math.max(0, data.points) : 5;
-      data.hasElements = data.hasElements !== false; // default true; set false in JSON to hide element picker
-      return data;
+  function applyCardinalLayout(treeData) {
+    const container = document.getElementById('skillTreeContainer');
+    const WIDTH  = container?.offsetWidth  || window.innerWidth  || 1200;
+    const HEIGHT = container?.offsetHeight || window.innerHeight - 56 || 800;
+    const CX = WIDTH / 2, CY = HEIGHT / 2;
+
+    const byId = Object.fromEntries(treeData.nodes.map(n => [n.id, n]));
+
+    // Seed positions and zero velocity
+    for (const node of treeData.nodes) {
+      node.x  = node.id === 'root' ? CX : CX + (Math.random() - 0.5) * WIDTH * 0.5;
+      node.y  = node.id === 'root' ? CY : CY + (Math.random() - 0.5) * HEIGHT * 0.5;
+      node.vx = node.vy = 0;
     }
 
-    function applyCardinalLayout(treeData) {
-      const container = document.getElementById('skillTreeContainer');
-      const WIDTH = (container?.offsetWidth || window.innerWidth || 1200);
-      const HEIGHT = (container?.offsetHeight || (window.innerHeight - 56) || 800);
-      const CENTER_X = WIDTH / 2, CENTER_Y = HEIGHT / 2;
-      const NODE_RADIUS = 50; // collision radius for nodes
-      const REPEL_STRENGTH = 500; // repulsion force between nodes
-      const LINK_STRENGTH = 0.5; // attraction force along edges
+    const REPEL = 500, ATTRACT = 0.5, RADIAL = 50, DAMPING = 0.7;
 
-      const byId = Object.fromEntries(treeData.nodes.map(n => [n.id, n]));
-      
-      // Initialize positions: pin nodes that already have custom x/y, randomize the rest
+    for (let iter = 0; iter < 60; iter++) {
+      // Reset forces
+      for (const n of treeData.nodes) n.fx = n.fy = 0;
+
+      // Repulsion between all pairs
+      for (let i = 0; i < treeData.nodes.length; i++) {
+        for (let j = i + 1; j < treeData.nodes.length; j++) {
+          const a = treeData.nodes[i], b = treeData.nodes[j];
+          const dx = b.x - a.x, dy = b.y - a.y;
+          const dist = Math.hypot(dx, dy) + 0.01;
+          if (dist < 300) {
+            const f = REPEL / (dist * dist);
+            a.fx -= (dx / dist) * f;  a.fy -= (dy / dist) * f;
+            b.fx += (dx / dist) * f;  b.fy += (dy / dist) * f;
+          }
+        }
+      }
+
+      // Edge attraction (children toward parents)
       for (const node of treeData.nodes) {
-        if (Number.isFinite(node.x) && Number.isFinite(node.y)) {
-          node.pinned = true; // keep custom coordinates fixed throughout simulation
-        } else {
-          node.pinned = false;
-          node.x = CENTER_X + (Math.random() - 0.5) * 400;
-          node.y = CENTER_Y + (Math.random() - 0.5) * 400;
-        }
-        node.vx = 0;
-        node.vy = 0;
-      }
-
-      const root = byId.root || treeData.nodes.find(n => (n.requires || []).length === 0);
-      if (root && !root.pinned) {
-        // Only snap root to center if it has no custom position
-        root.x = CENTER_X;
-        root.y = CENTER_Y;
-      }
-
-      // Build parent-child relationships
-      const childrenMap = new Map();
-      for (const n of treeData.nodes) {
-        for (const req of (n.requires || [])) {
-          if (!childrenMap.has(req)) childrenMap.set(req, []);
-          childrenMap.get(req).push(n);
+        for (const reqId of node.requires) {
+          const parent = byId[reqId];
+          if (!parent) continue;
+          const dx = parent.x - node.x, dy = parent.y - node.y;
+          const dist = Math.hypot(dx, dy) + 0.01;
+          const f = dist * ATTRACT;
+          node.fx += (dx / dist) * f;
+          node.fy += (dy / dist) * f;
         }
       }
 
-      // Force-directed simulation iterations
-      const ITERATIONS = 60;
-      for (let iter = 0; iter < ITERATIONS; iter++) {
-        // Reset forces
-        for (const node of treeData.nodes) {
-          node.fx = 0;
-          node.fy = 0;
-        }
+      // Radial push from center (skip root)
+      for (const node of treeData.nodes) {
+        if (node.id === 'root') continue;
+        const dx = node.x - CX, dy = node.y - CY;
+        const dist = Math.hypot(dx, dy) + 0.01;
+        node.fx += (dx / dist) * RADIAL;
+        node.fy += (dy / dist) * RADIAL;
+      }
 
-        // Repulsion forces (avoid overlaps)
-        for (let i = 0; i < treeData.nodes.length; i++) {
-          for (let j = i + 1; j < treeData.nodes.length; j++) {
-            const n1 = treeData.nodes[i];
-            const n2 = treeData.nodes[j];
-            const dx = n2.x - n1.x;
-            const dy = n2.y - n1.y;
-            const dist = Math.sqrt(dx * dx + dy * dy) + 0.01;
-            const minDist = NODE_RADIUS * 2;
-
-            if (dist < minDist * 3) {
-              const force = REPEL_STRENGTH / (dist * dist);
-              const fx = (dx / dist) * force;
-              const fy = (dy / dist) * force;
-              n1.fx -= fx;
-              n1.fy -= fy;
-              n2.fx += fx;
-              n2.fy += fy;
-            }
-          }
-        }
-
-        // Attraction forces along edges (children toward parents)
-        for (const node of treeData.nodes) {
-          for (const reqId of (node.requires || [])) {
-            const parent = byId[reqId];
-            if (!parent) continue;
-            const dx = parent.x - node.x;
-            const dy = parent.y - node.y;
-            const dist = Math.sqrt(dx * dx + dy * dy) + 0.01;
-            const force = dist * LINK_STRENGTH;
-            node.fx += (dx / dist) * force;
-            node.fy += (dy / dist) * force;
-          }
-        }
-
-        // Radial push from center to spread nodes
-        for (const node of treeData.nodes) {
-          if (node === root) continue;
-          const dx = node.x - CENTER_X;
-          const dy = node.y - CENTER_Y;
-          const dist = Math.sqrt(dx * dx + dy * dy) + 0.01;
-          const radialForce = 50;
-          node.fx += (dx / dist) * radialForce;
-          node.fy += (dy / dist) * radialForce;
-        }
-
-        // Damping and velocity update — skip pinned nodes (they have custom coordinates)
-        const damping = 0.7;
-        for (const node of treeData.nodes) {
-          if (node.pinned) continue; // fixed: either root snapped to center or user-defined x/y
-          node.vx = (node.vx + node.fx) * damping;
-          node.vy = (node.vy + node.fy) * damping;
-          node.x += node.vx;
-          node.y += node.vy;
-        }
-
-        // Boundary constraints
-        const margin = 100;
-        for (const node of treeData.nodes) {
-          node.x = Math.max(margin, Math.min(WIDTH - margin, node.x));
-          node.y = Math.max(margin, Math.min(HEIGHT - margin, node.y));
-        }
+      // Integrate, skip root
+      for (const node of treeData.nodes) {
+        if (node.id === 'root') continue;
+        node.vx = (node.vx + node.fx) * DAMPING;
+        node.vy = (node.vy + node.fy) * DAMPING;
+        node.x  = Math.max(100, Math.min(WIDTH  - 100, node.x + node.vx));
+        node.y  = Math.max(100, Math.min(HEIGHT - 100, node.y + node.vy));
       }
     }
+  }
 
     // ---------- DRAWING ----------
     function clearSvg() {
