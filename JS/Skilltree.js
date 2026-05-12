@@ -568,6 +568,7 @@
     // ---------- ELEMENT PICKER ----------
     function createElementPicker() {
       if (document.getElementById("elementPickerContainer")) return; // already created
+      if (document.title.includes("Martial Arts")) return; // hide for Martial Arts tree which has no elements
       const container = document.createElement("div");
       container.className = "element-picker";
       container.id = "elementPickerContainer";
