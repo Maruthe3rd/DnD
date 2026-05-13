@@ -219,8 +219,8 @@
       node.y  = node.id === 'root' ? CY : CY + (Math.random() - 0.5) * HEIGHT * 0.5;
       node.vx = node.vy = 0;
     }
-
-   /* const REPEL = 500, ATTRACT = 0.5, RADIAL = 50, DAMPING = 0.7;
+    /*
+    const REPEL = 500, ATTRACT = 0.5, RADIAL = 50, DAMPING = 0.7;
 
     for (let iter = 0; iter < 60; iter++) {
       // Reset forces
@@ -272,8 +272,8 @@
         node.x  = Math.max(100, Math.min(WIDTH  - 100, node.x + node.vx));
         node.y  = Math.max(100, Math.min(HEIGHT - 100, node.y + node.vy));
       }
-    }
-    */
+    }*/
+    
     return treeData;
   }
 
@@ -362,12 +362,13 @@
         });
 
         svg.appendChild(g);
-      }
+      
 
         if (overviewPanel && !overviewPanel.classList.contains("hidden")) {
             refreshOverview();
         }
     }
+  }
 
     // ---------- TREE I/O ----------
     function loadTree(data) {
