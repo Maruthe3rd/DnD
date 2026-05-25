@@ -213,9 +213,8 @@
 
     const byId = Object.fromEntries(treeData.nodes.map(n => [n.id, n]));
 
-    // Seed positions and zero velocity.
-    // If a node already has x/y in the JSON, treat them as offsets from the
-    // screen centre (CX/CY) so the authored layout is preserved exactly.
+    console.log(treeData.nodes.map(n => ({id: n.id, x: n.x, y: n.y})));
+
     for (const node of treeData.nodes) {
       const hasCoords = (node.x !== undefined && node.y !== undefined);
       node.x  = CX + node.x;
