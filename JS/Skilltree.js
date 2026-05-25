@@ -204,37 +204,147 @@
     }
 
     // ---------- VALIDATION & LAYOUT ----------
-    function validateTree(treeData) {
-      const container = document.getElementById('skillTreeContainer');
-      const WIDTH  = container?.offsetWidth  || window.innerWidth  || 1200;
-      const HEIGHT = container?.offsetHeight || window.innerHeight - 56 || 800;
-      const CX = WIDTH / 2, CY = HEIGHT / 2;
 
-      // Handle unpositioned trees (like TestTree2 where all coordinates are 0)
-      const needsLayout = treeData.nodes.every(n => !n.x && !n.y);
+    /**
+     * Radial auto-layout for trees without explicit coordinates.
+     * Assigns positions using BFS layers, then spreads each layer
+     * evenly across the SVG width.
+     */
+    function autoLayout(nodes, CX, CY) {
+      const LAYER_GAP  = 200;  // vertical distance between layers
+      const MIN_SPREAD = 160;  // minimum horizontal spacing between nodes
 
-      if (needsLayout) {
-        const rootNode = treeData.nodes.find(n => n.id === 'root') || treeData.nodes[0];
-        const childNodes = treeData.nodes.filter(n => n !== rootNode);
-        
-        if (rootNode) {
-          rootNode.x = 0;
-          rootNode.y = 0;
+      // --- 1. Assign each node its depth layer via BFS ---
+      const layer = new Map();
+      const queue = [];
+
+      // Seed: nodes with no requirements are roots (layer 0)
+      for (const n of nodes) {
+        if (!n.requires || n.requires.length === 0) {
+          layer.set(n.id, 0);
+          queue.push(n);
         }
-        
-        childNodes.forEach((node, index) => {
-          const angle = (index / childNodes.length) * 2 * Math.PI;
-          const radius = 180; // Distance outward from root node
-          node.x = Math.round(radius * Math.cos(angle));
-          node.y = Math.round(radius * Math.sin(angle));
+      }
+
+      // Nodes whose all predecessors are unknown get layer 0 too
+      const ids = new Set(nodes.map(n => n.id));
+      for (const n of nodes) {
+        if (!layer.has(n.id) && n.requires.every(r => !ids.has(r))) {
+          layer.set(n.id, 0);
+          queue.push(n);
+        }
+      }
+
+      while (queue.length) {
+        const cur = queue.shift();
+        const curLayer = layer.get(cur.id);
+        for (const candidate of nodes) {
+          if (!layer.has(candidate.id) && candidate.requires.includes(cur.id)) {
+            layer.set(candidate.id, curLayer + 1);
+            queue.push(candidate);
+          }
+        }
+      }
+
+      // Fallback: any node still unassigned goes to layer 0
+      for (const n of nodes) {
+        if (!layer.has(n.id)) layer.set(n.id, 0);
+      }
+
+      // --- 2. Group nodes by layer ---
+      const byLayer = new Map();
+      for (const n of nodes) {
+        const l = layer.get(n.id);
+        if (!byLayer.has(l)) byLayer.set(l, []);
+        byLayer.get(l).push(n);
+      }
+
+      const totalLayers = byLayer.size;
+
+      // --- 3. Assign pixel positions ---
+      for (const [l, layerNodes] of byLayer) {
+        const count   = layerNodes.length;
+        const spread  = Math.max(MIN_SPREAD, MIN_SPREAD * count);
+        const startX  = CX - (spread * (count - 1)) / 2;
+        const y       = CY + (l - (totalLayers - 1) / 2) * LAYER_GAP;
+
+        layerNodes.forEach((n, i) => {
+          n.x = count === 1 ? CX : startX + i * spread;
+          n.y = y;
         });
       }
+    }
 
+    /**
+     * Validates and prepares a raw tree object for use.
+     *
+     * Coordinate convention (matching saveTree):
+     *   JSON stores offsets from the SVG centre → (0, 0) = centre.
+     *   validateTree converts them to absolute SVG pixel coordinates.
+     *   When every node sits at (0, 0) (no manual layout was saved),
+     *   autoLayout is called instead so nodes don't pile up.
+     */
+    function validateTree(treeData) {
+
+      // ── 1. Top-level sanity checks ────────────────────────────────────────
+      if (!treeData || typeof treeData !== "object")
+        throw new Error("Invalid tree: root must be a JSON object.");
+      if (!treeData.name || typeof treeData.name !== "string")
+        throw new Error("Invalid tree: missing or invalid 'name'.");
+      if (typeof treeData.points !== "number" || treeData.points < 0)
+        throw new Error("Invalid tree: 'points' must be a non-negative number.");
+      if (!Array.isArray(treeData.nodes) || treeData.nodes.length === 0)
+        throw new Error("Invalid tree: 'nodes' must be a non-empty array.");
+
+      // ── 2. Per-node validation and normalisation ──────────────────────────
+      const ids = new Set();
       for (const node of treeData.nodes) {
-        node.x  = CX + (node.x || 0);
-        node.y  = CY + (node.y || 0);
-        node.vx = node.vy = 0;
+        if (!node.id || typeof node.id !== "string")
+          throw new Error(`Node is missing a valid string 'id': ${JSON.stringify(node)}`);
+        if (ids.has(node.id))
+          throw new Error(`Duplicate node id: "${node.id}".`);
+        ids.add(node.id);
+
+        // Normalise optional fields
+        if (!node.label)      node.label    = node.id;
+        node.cost             = node.cost    ?? 1;
+        node.requires         = Array.isArray(node.requires) ? node.requires : [];
+        node.elements         = node.elements || {};
+        node.x                = typeof node.x === "number" ? node.x : 0;
+        node.y                = typeof node.y === "number" ? node.y : 0;
       }
+
+      // ── 3. Validate requires references ──────────────────────────────────
+      for (const node of treeData.nodes) {
+        for (const reqId of node.requires) {
+          if (!ids.has(reqId))
+            throw new Error(`Node "${node.id}" requires unknown id "${reqId}".`);
+        }
+      }
+
+      // ── 4. Determine SVG canvas centre ────────────────────────────────────
+      const container = document.getElementById("skillTreeContainer");
+      const w  = container?.offsetWidth  || window.innerWidth  || 1200;
+      const h  = container?.offsetHeight || (window.innerHeight - 56) || 800;
+      const CX = w / 2;
+      const CY = h / 2;
+
+      // ── 5. Coordinate conversion ──────────────────────────────────────────
+      // If every node is at (0, 0) the JSON carries no layout information
+      // (either never set, or all nodes genuinely at centre – pathological).
+      // In that case compute positions automatically.
+      const hasLayout = treeData.nodes.some(n => n.x !== 0 || n.y !== 0);
+
+      if (hasLayout) {
+        // JSON uses centre-relative offsets (see saveTree) → convert to absolute
+        for (const node of treeData.nodes) {
+          node.x += CX;
+          node.y += CY;
+        }
+      } else {
+        autoLayout(treeData.nodes, CX, CY);
+      }
+
       return treeData;
     }
 
