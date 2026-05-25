@@ -1,13 +1,15 @@
 {
-  "name": "Elemental Skilltree V1",
+  "name": "Elemental Skilltree V2",
   "points": 5,
   "hasElements": true,
   "nodes": [
     {
       "id": "root",
       "label": "Base",
-      "cost": 0,
+      "cost": 1,
       "requires": [],
+      "x": 0,
+      "y": 0,
       "elements": {
         "Neutral": {
           "title": "Base",
@@ -23,6 +25,8 @@
       "requires": [
         "root"
       ],
+      "x": 0,
+      "y": 150,
       "elements": {
         "Fire": {
           "title": "Rage",
@@ -73,6 +77,8 @@
       "requires": [
         "buff_doping_1"
       ],
+      "x": 0,
+      "y": 300,
       "elements": {
         "Fire": {
           "title": "Life Burn",
@@ -123,6 +129,8 @@
       "requires": [
         "buff_doping_2"
       ],
+      "x": 0,
+      "y": 450,
       "elements": {
         "Fire": {
           "title": "Phoenix Flames",
@@ -173,6 +181,8 @@
       "requires": [
         "root"
       ],
+      "x": 150,
+      "y": 0,
       "elements": {
         "Fire": {
           "title": "Blazing Aura",
@@ -223,6 +233,8 @@
       "requires": [
         "attack_1"
       ],
+      "x": 300,
+      "y": 0,
       "elements": {
         "Fire": {
           "title": "Flame Wave",
@@ -273,6 +285,8 @@
       "requires": [
         "attack_2"
       ],
+      "x": 450,
+      "y": 0,
       "elements": {
         "Fire": {
           "title": "Meteor Strike",
@@ -323,6 +337,8 @@
       "requires": [
         "root"
       ],
+      "x": 0,
+      "y": -150,
       "elements": {
         "Fire": {
           "title": "Fiery Presence",
@@ -373,6 +389,8 @@
       "requires": [
         "general_life_1"
       ],
+      "x": 0,
+      "y": -300,
       "elements": {
         "Fire": {
           "title": "Heated Activity",
@@ -423,6 +441,8 @@
       "requires": [
         "general_life_2"
       ],
+      "x": 0,
+      "y": -450,
       "elements": {
         "Fire": {
           "title": "Phoenix Blessing",
@@ -473,6 +493,8 @@
       "requires": [
         "root"
       ],
+      "x": -150,
+      "y": 0,
       "elements": {
         "Fire": {
           "title": "Flame Burst",
@@ -523,6 +545,8 @@
       "requires": [
         "spells_1"
       ],
+      "x": -300,
+      "y": 0,
       "elements": {
         "Fire": {
           "title": "Fire Fist",
@@ -573,6 +597,8 @@
       "requires": [
         "spells_2"
       ],
+      "x": -450,
+      "y": 0,
       "elements": {
         "Fire": {
           "title": "Fireball",
