@@ -1,0 +1,109 @@
+{
+  "name": "Martial Arts Tree V2",
+  "points": 5,
+  "hasElements": false,
+  "nodes": [
+    {
+      "id": "root",
+      "label": "Breath",
+      "cost": 1,
+      "requires": [],
+      "x": 0,
+      "y": 0,
+      "elements": {
+        "Neutral": {
+          "description": "You have learned to master your breath.",
+          "effect": "Bonus Action: you can recover 1d4 stamina."
+        }
+      }
+    },
+    {
+      "id": "EAT",
+      "label": "8-Arms",
+      "cost": 1,
+      "requires": [
+        "root",
+        "Sweep",
+        "Barrage"
+      ],
+      "x": -250,
+      "y": 0,
+      "elements": {
+        "Neutral": {
+          "description": "Focus your ki to strike with all your limbs.",
+          "effect": "Cost: 2 stamina; Effect: make 2 unarmed attacks at disadvantage."
+        }
+      }
+    },
+    {
+      "id": "Sweep",
+      "label": "Sweep",
+      "cost": 1,
+      "requires": [
+        "EAT",
+        "Barrage",
+        "Burst"
+      ],
+      "x": -450,
+      "y": 0,
+      "elements": {
+        "Neutral": {
+          "description": "Use your leg to trip nearby opponents.",
+          "effect": "Cost: 3 stamina; Effect: make a sweeping attack that targets all creatures within 2 meters."
+        }
+      }
+    },
+    {
+      "id": "Throw",
+      "label": "Throw",
+      "cost": 1,
+      "requires": [
+        "Trap",
+        "PurifyBody",
+        "Lock"
+      ],
+      "x": 450,
+      "y": -150,
+      "elements": {
+        "Neutral": {
+          "description": "Create some personal space.",
+          "effect": "Cost: 1 stamina; Effect: When you are hit with a melee attack and you have nothing in your hands, you can attempt to throw the attacker. The target must succeed on a DC 12 Strength saving throw or be thrown 3m away from you."
+        }
+      }
+    },
+    {
+      "id": "Block",
+      "label": "Block",
+      "cost": 1,
+      "requires": [
+        "Counter",
+        "Lock"
+      ],
+      "x": 450,
+      "y": 150,
+      "elements": {
+        "Neutral": {
+          "description": "Defend yourself against incoming attacks.",
+          "effect": "Cost: 2 stamina; Effect: When you are hit with a melee attack, you can block it to half the damage."
+        }
+      }
+    },
+    {
+      "id": "Lock",
+      "label": "Lock",
+      "cost": 1,
+      "requires": [
+        "Throw",
+        "Block"
+      ],
+      "x": 250,
+      "y": 0,
+      "elements": {
+        "Neutral": {
+          "description": "Turn the tables on your enemies.",
+          "effect": "Cost: 2 stamina; Effect: When you are hit with a melee attack, you can make an unarmed strike against them."
+        }
+      }
+    }
+  ]
+}
