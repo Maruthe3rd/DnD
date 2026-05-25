@@ -5,11 +5,12 @@
     const ELEMENTS = ["Neutral", "Fire", "Ice", "Lightning", "Nature", "Weird", "Physical", "Wind"];
     const SVG_NS = "http://www.w3.org/2000/svg";
 
-    // DOM elements — create the SVG dynamically since no static <svg id="treeSvg"> exists in the HTML
-    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    // DOM elements
+    const svg = document.createElementNS(SVG_NS, "svg");
     svg.id = "treeSvg";
     svg.style.display = "block";
     svg.style.transformOrigin = "center center";
+
     const fileInput = document.getElementById("fileInput");
     const saveTreeBtn = document.getElementById("saveTreeBtn");
     const progressInput = document.getElementById("progressInput");
@@ -77,20 +78,19 @@
     }
 
     function refreshOverview() {
-    if (!tree) return;
-    const unlockedNodes = tree.nodes.filter(n => unlocked.has(n.id));
-    overviewList.innerHTML = unlockedNodes.length === 0
-        ? '<p class="no-unlocks">No nodes unlocked yet.</p>'
-        : unlockedNodes.map(n => `
-            <div class="overview-item">
-            <div class="ov-title">${n.label}</div>
-            <div class="ov-effect">${n.effect}</div>
-            </div>
-        `).join('');
+      if (!tree) return;
+      const unlockedNodes = tree.nodes.filter(n => unlocked.has(n.id));
+      overviewList.innerHTML = unlockedNodes.length === 0
+          ? '<p class="no-unlocks">No nodes unlocked yet.</p>'
+          : unlockedNodes.map(n => `
+              <div class="overview-item">
+                <div class="ov-title">${n.label}</div>
+                <div class="ov-effect">${n.effect}</div>
+              </div>
+          `).join('');
     }
 
     // ---------- NODE STATE ----------
-
     function canUnlock(node) {
       if (unlocked.has(node.id)) return false;
       if (pointsLeft < (node.cost ?? 1)) return false;
@@ -167,7 +167,7 @@
       document.addEventListener('keydown', escHandler);
     }
 
-        // ---------- CONFIRMATION MODAL ----------
+    // ---------- CONFIRMATION MODAL ----------
     function showConfirmModal(message, onConfirm) {
       const existing = document.querySelector('.modal-overlay');
       if (existing) existing.remove();
@@ -203,26 +203,40 @@
       document.addEventListener('keydown', escHandler);
     }
 
-
     // ---------- VALIDATION & LAYOUT ----------
-  function validateTree(treeData) {
-    const container = document.getElementById('skillTreeContainer');
-    const WIDTH  = container?.offsetWidth  || window.innerWidth  || 1200;
-    const HEIGHT = container?.offsetHeight || window.innerHeight - 56 || 800;
-    const CX = WIDTH / 2, CY = HEIGHT / 2;
+    function validateTree(treeData) {
+      const container = document.getElementById('skillTreeContainer');
+      const WIDTH  = container?.offsetWidth  || window.innerWidth  || 1200;
+      const HEIGHT = container?.offsetHeight || window.innerHeight - 56 || 800;
+      const CX = WIDTH / 2, CY = HEIGHT / 2;
 
-    const byId = Object.fromEntries(treeData.nodes.map(n => [n.id, n]));
+      // Handle unpositioned trees (like TestTree2 where all coordinates are 0)
+      const needsLayout = treeData.nodes.every(n => !n.x && !n.y);
 
-    console.log(treeData.nodes.map(n => ({id: n.id, x: n.x, y: n.y})));
+      if (needsLayout) {
+        const rootNode = treeData.nodes.find(n => n.id === 'root') || treeData.nodes[0];
+        const childNodes = treeData.nodes.filter(n => n !== rootNode);
+        
+        if (rootNode) {
+          rootNode.x = 0;
+          rootNode.y = 0;
+        }
+        
+        childNodes.forEach((node, index) => {
+          const angle = (index / childNodes.length) * 2 * Math.PI;
+          const radius = 180; // Distance outward from root node
+          node.x = Math.round(radius * Math.cos(angle));
+          node.y = Math.round(radius * Math.sin(angle));
+        });
+      }
 
-    for (const node of treeData.nodes) {
-      const hasCoords = (node.x !== undefined && node.y !== undefined);
-      node.x  = CX + node.x;
-      node.y  = CY + node.y;
-      node.vx = node.vy = 0;
+      for (const node of treeData.nodes) {
+        node.x  = CX + (node.x || 0);
+        node.y  = CY + (node.y || 0);
+        node.vx = node.vy = 0;
+      }
+      return treeData;
     }
-    return treeData;
-  }
 
     // ---------- DRAWING ----------
     function clearSvg() {
@@ -242,14 +256,11 @@
       svg.style.transform = `scale(${newScale})`;
       svg.setAttribute("data-scale", newScale);
     }
-
     
     function drawTree() {
-      // Attach SVG into the container if not already there
       const container = document.getElementById('skillTreeContainer');
       if (container) {
         if (svg.parentElement !== container) container.appendChild(svg);
-        // offsetWidth/Height are reliable after layout; fall back to viewport size
         const w = container.offsetWidth || window.innerWidth || 1200;
         const h = container.offsetHeight || (window.innerHeight - 56) || 800;
         svg.setAttribute('width', w);
@@ -309,13 +320,12 @@
         });
 
         svg.appendChild(g);
-      
+      }
 
-        if (overviewPanel && !overviewPanel.classList.contains("hidden")) {
-            refreshOverview();
-        }
+      if (overviewPanel && !overviewPanel.classList.contains("hidden")) {
+          refreshOverview();
+      }
     }
-  }
 
     // ---------- TREE I/O ----------
     function loadTree(data) {
@@ -400,53 +410,9 @@
       });
     }
 
-    // ---------- EXAMPLE TREE ----------
-    function generateExampleTree() {
-      return {
-        name: "Example Elemental Tree",
-        points: 8,
-        nodes: [
-          {
-            id: "root",
-            label: "Core",
-            cost: 1,
-            requires: [],
-            elements: {
-              Neutral: { title: "Core", description: "The foundation of your power.", effect: "Grants 1 skill point." },
-              Fire: { title: "Inferno Core", description: "A blazing heart.", effect: "Your fire spells deal +1 damage." },
-              Water: { title: "Tidal Core", description: "Fluid and relentless.", effect: "Gain advantage on grapple checks." }
-            }
-          },
-          {
-            id: "strength",
-            label: "Strength",
-            cost: 2,
-            requires: ["root"],
-            elements: {
-              Neutral: { title: "Strength", description: "Raw physical power.", effect: "+1 melee damage." },
-              Fire: { title: "Flame Strength", description: "Strength imbued with fire.", effect: "+1 fire damage on melee attacks." },
-              Water: { title: "Tidal Strength", description: "Fluid power.", effect: "Push enemies 5ft on hit." }
-            }
-          },
-          {
-            id: "wisdom",
-            label: "Wisdom",
-            cost: 2,
-            requires: ["root"],
-            elements: {
-              Neutral: { title: "Wisdom", description: "Insight and perception.", effect: "+1 to Perception checks." },
-              Fire: { title: "Blazing Insight", description: "You see through deception.", effect: "Advantage on Insight checks." },
-              Water: { title: "Flowing Wisdom", description: "Calm and adaptable.", effect: "Resistance to psychic damage." }
-            }
-          }
-        ]
-      };
-    }
-
     // ---------- ELEMENT PICKER ----------
     function createElementPicker() {
-      if (document.getElementById("elementPickerContainer")) return; // already created
-      if (document.title.includes("Martial Arts")) return; // hide for Martial Arts tree which has no elements
+      if (document.getElementById("elementPickerContainer")) return;
       const container = document.createElement("div");
       container.className = "element-picker";
       container.id = "elementPickerContainer";
@@ -478,7 +444,6 @@
     function updateElementPickerVisibility() {
       const container = document.getElementById("elementPickerContainer");
       if (!container) return;
-      // Hide the picker when the tree has hasElements: false in its JSON
       container.style.display = (tree?.hasElements === false) ? "none" : "";
     }
 
@@ -487,7 +452,7 @@
       name: "Starter Tree",
       points: 6,
       nodes: [
-        { id: "root", label: "Drück ma load tree", cost: 161, requires: [], elements: {} },
+        { id: "root", label: "Please load a tree JSON file", cost: 0, requires: [], elements: {} },
       ]
     };
 
@@ -519,29 +484,27 @@
     zoomInBtn.addEventListener("click", zoomIn);
     zoomOutBtn.addEventListener("click", zoomOut);
     toggleOverviewBtn.addEventListener("click", () => {
-    overviewPanel.classList.toggle("hidden");
-    if (!overviewPanel.classList.contains("hidden")) {
-        refreshOverview();
-    }
+      overviewPanel.classList.toggle("hidden");
+      if (!overviewPanel.classList.contains("hidden")) {
+          refreshOverview();
+      }
     });
 
-    // Points adjustment buttons
     addPointBtn.addEventListener("click", () => {
       if (!tree) return;
       tree.points += 1;
       pointsLeft += 1;
       updateHUD();
-      drawTree(); // node availability may change
+      drawTree();
     });
 
     subPointBtn.addEventListener("click", () => {
       if (!tree) return;
-      // Cannot reduce total points below already spent points
       const spent = tree.points - pointsLeft;
       if (tree.points > spent) {
         tree.points -= 1;
         if (pointsLeft > 0) pointsLeft -= 1;
-        else pointsLeft = 0; // should not happen, but safety
+        else pointsLeft = 0;
         updateHUD();
         drawTree();
       } else {
@@ -553,4 +516,4 @@
     createElementPicker();
     requestAnimationFrame(() => loadTree(defaultTree));
     
-  })();
+})();
