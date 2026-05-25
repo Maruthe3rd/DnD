@@ -203,13 +203,6 @@
       document.addEventListener('keydown', escHandler);
     }
 
-    // ---------- VALIDATION & LAYOUT ----------
-
-    /**
-     * Radial auto-layout for trees without explicit coordinates.
-     * Assigns positions using BFS layers, then spreads each layer
-     * evenly across the SVG width.
-     */
     function autoLayout(nodes, CX, CY) {
       const LAYER_GAP  = 200;  // vertical distance between layers
       const MIN_SPREAD = 160;  // minimum horizontal spacing between nodes
@@ -275,15 +268,6 @@
       }
     }
 
-    /**
-     * Validates and prepares a raw tree object for use.
-     *
-     * Coordinate convention (matching saveTree):
-     *   JSON stores offsets from the SVG centre → (0, 0) = centre.
-     *   validateTree converts them to absolute SVG pixel coordinates.
-     *   When every node sits at (0, 0) (no manual layout was saved),
-     *   autoLayout is called instead so nodes don't pile up.
-     */
     function validateTree(treeData) {
 
       // ── 1. Top-level sanity checks ────────────────────────────────────────
@@ -439,6 +423,7 @@
 
     // ---------- TREE I/O ----------
     function loadTree(data) {
+      console.log("Loading tree data:", data);
       tree = validateTree(structuredClone(data));
       unlocked.clear();
       pointsLeft = tree.points;
