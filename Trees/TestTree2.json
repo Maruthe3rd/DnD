@@ -22,7 +22,7 @@
       "label": "8-Arms",
       "cost": 1,
       "requires": ["root", "Sweep", "Barrage"],
-      "x": 500,
+      "x": 0,
       "y": 0,
       "elements": {
         "Neutral": {
@@ -37,7 +37,7 @@
       "cost": 1,
       "requires": ["root", "Heavy", "Light"],
       "x": 0,
-      "y": 500,
+      "y": 0,
       "elements": {
         "Neutral": {
           "description": "Use your martial Arts skills to strike your opponents.",
@@ -51,7 +51,7 @@
       "cost": 1,
       "requires": ["root", "Restore", "Ki"],
       "x": 0,
-      "y": -500,
+      "y": 0,
       "elements": {
         "Neutral": {
           "description": "Recover your Focus.",
@@ -64,7 +64,7 @@
       "label": "Trap",
       "cost": 1,
       "requires": ["root", "Throw", "Counter"],
-      "x": -500,
+      "x": 0,
       "y": 0,
       "elements": {
         "Neutral": {

@@ -218,8 +218,8 @@
     // screen centre (CX/CY) so the authored layout is preserved exactly.
     for (const node of treeData.nodes) {
       const hasCoords = (node.x !== undefined && node.y !== undefined);
-      node.x  = hasCoords ? CX + node.x : (node.id === 'root' ? CX : CX + (Math.random() - 0.5) * WIDTH * 0.5);
-      node.y  = hasCoords ? CY + node.y : (node.id === 'root' ? CY : CY + (Math.random() - 0.5) * HEIGHT * 0.5);
+      node.x  = CX + node.x;
+      node.y  = CY + node.y;
       node.vx = node.vy = 0;
     }
     return treeData;
