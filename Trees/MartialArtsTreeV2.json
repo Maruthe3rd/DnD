@@ -8,8 +8,8 @@
       "label": "Breath",
       "cost": 1,
       "requires": [],
-      "x": 600,
-      "y": 450,
+      "x": 0,
+      "y": 0,
       "elements": {
         "Neutral": {
           "description": "You have learned to master your breath.",
@@ -22,8 +22,8 @@
       "label": "8-Arms",
       "cost": 1,
       "requires": ["root", "Sweep", "Barrage"],
-      "x": 600,
-      "y": 150,
+      "x": 0,
+      "y": -150,
       "elements": {
         "Neutral": {
           "description": "Focus your ki to strike with all your limbs.",
@@ -36,8 +36,8 @@
       "label": "Sweep",
       "cost": 1,
       "requires": ["EAT", "Barrage", "Burst"],
-      "x": 380,
-      "y": 220,
+      "x": -150,
+      "y": -250,
       "elements": {
         "Neutral": {
           "description": "Use your leg to trip nearby opponents.",
@@ -50,8 +50,8 @@
       "label": "Barrage",
       "cost": 1,
       "requires": ["EAT", "Sweep", "Light", "Pres-Points"],
-      "x": 820,
-      "y": 220,
+      "x": 150,
+      "y": -250,
       "elements": {
         "Neutral": {
           "description": "Unleash a flurry of strikes on your target.",
@@ -64,8 +64,8 @@
       "label": "Pressure Points",
       "cost": 1,
       "requires": ["Barrage"],
-      "x": 1000,
-      "y": 130,
+      "x": 300,
+      "y": -350,
       "elements": {
         "Neutral": {
           "description": "Strike your opponent's vital points to stun them.",
@@ -78,8 +78,8 @@
       "label": "Burst",
       "cost": 1,
       "requires": ["Sweep"],
-      "x": 280,
-      "y": 340,
+      "x": -300,
+      "y": -350,
       "elements": {
         "Neutral": {
           "description": "Release a burst of energy to strike multiple foes around you.",
@@ -92,8 +92,8 @@
       "label": "Strike",
       "cost": 1,
       "requires": ["root", "Heavy", "Light"],
-      "x": 870,
-      "y": 450,
+      "x": 200,
+      "y": 0,
       "elements": {
         "Neutral": {
           "description": "Use your martial Arts skills to strike your opponents.",
@@ -106,8 +106,8 @@
       "label": "Light",
       "cost": 1,
       "requires": ["Strike", "Disarm", "Barrage", "Heavy"],
-      "x": 1000,
-      "y": 330,
+      "x": 350,
+      "y": -150,
       "elements": {
         "Neutral": {
           "description": "Just one more...",
@@ -120,8 +120,8 @@
       "label": "Heavy",
       "cost": 1,
       "requires": ["Strike", "Light", "Shake", "Counter"],
-      "x": 1000,
-      "y": 570,
+      "x": 350,
+      "y": 150,
       "elements": {
         "Neutral": {
           "description": "All for one (strike).",
@@ -134,8 +134,8 @@
       "label": "Disarm",
       "cost": 1,
       "requires": ["Light", "Barrage", "Shake"],
-      "x": 1120,
-      "y": 200,
+      "x": 550,
+      "y": -250,
       "elements": {
         "Neutral": {
           "description": "Disarm your opponent to gain the upper hand.",
@@ -148,8 +148,8 @@
       "label": "Shake",
       "cost": 1,
       "requires": ["Heavy", "Disarm"],
-      "x": 1150,
-      "y": 470,
+      "x": 550,
+      "y": 250,
       "elements": {
         "Neutral": {
           "description": "Wield the power of Truck-kun in your hands.",
@@ -162,8 +162,8 @@
       "label": "Balance",
       "cost": 1,
       "requires": ["root", "Restore", "Ki"],
-      "x": 330,
-      "y": 450,
+      "x": -150,
+      "y": 0,
       "elements": {
         "Neutral": {
           "description": "Recover your Focus.",
@@ -176,8 +176,8 @@
       "label": "Restore",
       "cost": 1,
       "requires": ["Balance", "Flow", "InnerPeace", "Burst"],
-      "x": 180,
-      "y": 320,
+      "x": -350,
+      "y": -150,
       "elements": {
         "Neutral": {
           "description": "Master the arts of recovery.",
@@ -190,8 +190,8 @@
       "label": "Ki",
       "cost": 1,
       "requires": ["Balance", "InnerPeace", "PurifyBody"],
-      "x": 180,
-      "y": 580,
+      "x": -350,
+      "y": 150,
       "elements": {
         "Neutral": {
           "description": "Find Energy in Exhaustion.",
@@ -204,8 +204,8 @@
       "label": "Flow",
       "cost": 1,
       "requires": ["Restore", "InnerPeace"],
-      "x": 90,
-      "y": 180,
+      "x": -550,
+      "y": -250,
       "elements": {
         "Neutral": {
           "description": "Go with the flow.",
@@ -218,8 +218,8 @@
       "label": "Inner Peace",
       "cost": 1,
       "requires": ["Flow", "Restore", "Ki", "PurifyBody"],
-      "x": 260,
-      "y": 190,
+      "x": -450,
+      "y": 0,
       "elements": {
         "Neutral": {
           "description": "Find tranquility in the storm.",
@@ -232,8 +232,8 @@
       "label": "Purify Body",
       "cost": 1,
       "requires": ["Flow", "InnerPeace", "Throw"],
-      "x": 90,
-      "y": 700,
+      "x": -550,
+      "y": 250,
       "elements": {
         "Neutral": {
           "description": "Meditate to regain your strength.",
@@ -246,8 +246,8 @@
       "label": "Trap",
       "cost": 1,
       "requires": ["root", "Throw", "Counter"],
-      "x": 600,
-      "y": 680,
+      "x": 0,
+      "y": 150,
       "elements": {
         "Neutral": {
           "description": "Make your enemies regret attacking you.",
@@ -260,8 +260,8 @@
       "label": "Counter",
       "cost": 1,
       "requires": ["Trap", "Heavy", "Block"],
-      "x": 820,
-      "y": 760,
+      "x": 150,
+      "y": 250,
       "elements": {
         "Neutral": {
           "description": "Turn the tables on your enemies.",
@@ -274,8 +274,8 @@
       "label": "Throw",
       "cost": 1,
       "requires": ["Trap", "PurifyBody", "Lock"],
-      "x": 380,
-      "y": 760,
+      "x": -150,
+      "y": 250,
       "elements": {
         "Neutral": {
           "description": "Create some personal space.",
@@ -288,8 +288,8 @@
       "label": "Block",
       "cost": 1,
       "requires": ["Counter", "Lock"],
-      "x": 980,
-      "y": 670,
+      "x": 150,
+      "y": 400,
       "elements": {
         "Neutral": {
           "description": "Defend yourself against incoming attacks.",
@@ -302,8 +302,8 @@
       "label": "Lock",
       "cost": 1,
       "requires": ["Throw", "Block"],
-      "x": 600,
-      "y": 870,
+      "x": -150,
+      "y": 400,
       "elements": {
         "Neutral": {
           "description": "Lock your opponent's limbs to restrain them.",
