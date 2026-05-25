@@ -213,67 +213,15 @@
 
     const byId = Object.fromEntries(treeData.nodes.map(n => [n.id, n]));
 
-    // Seed positions and zero velocity
+    // Seed positions and zero velocity.
+    // If a node already has x/y in the JSON, treat them as offsets from the
+    // screen centre (CX/CY) so the authored layout is preserved exactly.
     for (const node of treeData.nodes) {
-      node.x  = node.id === 'root' ? CX : CX + (Math.random() - 0.5) * WIDTH * 0.5;
-      node.y  = node.id === 'root' ? CY : CY + (Math.random() - 0.5) * HEIGHT * 0.5;
+      const hasCoords = (node.x !== undefined && node.y !== undefined);
+      node.x  = hasCoords ? CX + node.x : (node.id === 'root' ? CX : CX + (Math.random() - 0.5) * WIDTH * 0.5);
+      node.y  = hasCoords ? CY + node.y : (node.id === 'root' ? CY : CY + (Math.random() - 0.5) * HEIGHT * 0.5);
       node.vx = node.vy = 0;
     }
-    /*
-    const REPEL = 500, ATTRACT = 0.5, RADIAL = 50, DAMPING = 0.7;
-
-    for (let iter = 0; iter < 60; iter++) {
-      // Reset forces
-      for (const n of treeData.nodes) n.fx = n.fy = 0;
-
-      // Repulsion between all pairs
-      for (let i = 0; i < treeData.nodes.length; i++) {
-        for (let j = i + 1; j < treeData.nodes.length; j++) {
-          const a = treeData.nodes[i], b = treeData.nodes[j];
-          const dx = b.x - a.x, dy = b.y - a.y;
-          const dist = Math.hypot(dx, dy) + 0.01;
-          if (dist < 300) {
-            const f = REPEL / (dist * dist);
-            a.fx -= (dx / dist) * f;  a.fy -= (dy / dist) * f;
-            b.fx += (dx / dist) * f;  b.fy += (dy / dist) * f;
-          }
-        }
-      }
-      
-
-      // Edge attraction (children toward parents)
-      for (const node of treeData.nodes) {
-        for (const reqId of node.requires) {
-          const parent = byId[reqId];
-          if (!parent) continue;
-          const dx = parent.x - node.x, dy = parent.y - node.y;
-          const dist = Math.hypot(dx, dy) + 0.01;
-          const f = dist * ATTRACT;
-          node.fx += (dx / dist) * f;
-          node.fy += (dy / dist) * f;
-        }
-      }
-
-      // Radial push from center (skip root)
-      for (const node of treeData.nodes) {
-        if (node.id === 'root') continue;
-        const dx = node.x - CX, dy = node.y - CY;
-        const dist = Math.hypot(dx, dy) + 0.01;
-        node.fx += (dx / dist) * RADIAL;
-        node.fy += (dy / dist) * RADIAL;
-      }
-        
-
-      // Integrate, skip root
-      for (const node of treeData.nodes) {
-        if (node.id === 'root') continue;
-        node.vx = (node.vx + node.fx) * DAMPING;
-        node.vy = (node.vy + node.fy) * DAMPING;
-        node.x  = Math.max(100, Math.min(WIDTH  - 100, node.x + node.vx));
-        node.y  = Math.max(100, Math.min(HEIGHT - 100, node.y + node.vy));
-      }
-    }*/
-    
     return treeData;
   }
 
@@ -386,14 +334,18 @@
 
     function saveTree() {
       if (!tree) return;
+      const container = document.getElementById('skillTreeContainer');
+      const w = container?.offsetWidth  || window.innerWidth  || 1200;
+      const h = container?.offsetHeight || window.innerHeight - 56 || 800;
+      const CX = w / 2, CY = h / 2;
       const exportTree = {
         name: tree.name,
         points: tree.points,
         nodes: tree.nodes.map(n => ({
           id: n.id,
           label: n.baseLabel || n.label,
-          x: Math.round(n.x),
-          y: Math.round(n.y),
+          x: Math.round(n.x - CX),
+          y: Math.round(n.y - CY),
           cost: n.cost,
           requires: [...(n.requires || [])],
           elements: n.elements || {}
