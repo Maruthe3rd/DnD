@@ -897,7 +897,7 @@
         points: 6,
         hasElements: false,
         nodes: [
-            { id: "root", label: "Please load a tree JSON file", cost: 0, requires: [], elements: {} }
+            { id: "root", label: "Drück ma Load tree (bitti)", cost: 161, requires: [], elements: {} }
         ]
     };
 
